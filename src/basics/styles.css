@@ -1,0 +1,45 @@
+@import 'normalize.css';
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+
+:root {
+	--bg-color: #566b78;
+
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+body {
+	max-width: 60ch;
+
+	margin: 0 auto;
+	padding: 4em 1em;
+
+	font-size: clamp(1rem, 1rem + 0.5vw, 1.2rem);
+
+	line-height: 1.5; /* TODO */
+
+	color: var(--bg-color);
+}
+
+h1,
+h2,
+strong {
+	color: #333;
+}
+
+code,
+pre {
+	background: #eee;
+}
+
+code {
+	padding: 2px 4px;
+	vertical-align: text-bottom;
+}
+
+pre {
+	padding: 1em;
+}
+
+a {
+	color: #e81c4f;
+}
