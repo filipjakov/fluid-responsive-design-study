@@ -31,15 +31,28 @@ pre {
 	background: #eee;
 }
 
-code {
-	padding: 2px 4px;
-	vertical-align: text-bottom;
-}
-
 pre {
-	padding: 1em;
+	padding: 1rem;
 }
 
 a {
 	color: #e81c4f;
+}
+
+blockquote {
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: -40px;
+		height: 100%;
+		width: 2px;
+		background-color: #333;
+	}
+}
+
+/* spacing */
+main > * + * {
+	margin-top: 3rem;
 }

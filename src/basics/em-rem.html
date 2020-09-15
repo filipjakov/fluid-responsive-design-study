@@ -1,0 +1,204 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<style>
+		iframe {
+			width: 100%;
+		}
+
+		.btn-example {
+			--fs: 16px;
+
+			&>div {
+				display: flex;
+				justify-content: space-around;
+
+				gap: 1rem;
+
+				margin-bottom: 3rem;
+
+				font-size: var(--fs);
+
+				&>div {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					&>*+* {
+						margin-top: 2rem;
+					}
+				}
+
+				& pre {
+					font-size: initial;
+				}
+			}
+
+			& svg {
+				stroke-width: 5;
+			}
+
+			& button {
+				display: inline-flex;
+				justify-content: space-between;
+				align-items: center;
+				height: min-content;
+				box-sizing: border-box;
+				appearance: none;
+				border: none;
+				border-radius: 20px;
+
+				border: 2px solid black;
+				background-color: #aaf8ff;
+			}
+
+			& .px button {
+				padding: 8px 16px;
+				box-shadow: 0 0 0 16px #ffc2aa;
+
+				& svg {
+					height: 16px;
+					margin-left: 16px;
+				}
+			}
+
+			& .em button {
+				padding: .5em 1em;
+				/* Margin-like */
+				box-shadow: 0 0 0 1em #ffc2aa;
+
+				& svg {
+					height: 1em;
+					margin-left: 1em;
+				}
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<h1>rem vs. em – The Great Debate</h1>
+		<blockquote><i>One of the best practices to typography on the web is to use relative units like <code>rem</code> and
+				<code>em</code>.</i>
+		</blockquote>
+		<article>
+			<h2>What is em?</h2>
+			<blockquote cite="https://en.wikipedia.org/wiki/Em_(typography)"><i>An <b>em</b> is a unit of typography, equal to
+					the currently specified point-size.</i></blockquote>
+
+			<h4>What it means is: <code>1em = 20px</code> if a selector has a <code>font-size</code> of <code>20px</code>.
+			</h4>
+
+			<p>Consider the following:</p>
+			<code>h1 { font-size: 2em } /* ??? */</code>
+			<p>We have to look at the parent element in order to compute the <code>h1</code>'s <code>font-size</code>. Let’s
+				say the parent element is <code>&lt;html&gt;</code>, and its font-size is set to <code>16px</code>.
+			</p>
+			<pre><code>html { font-size: 100% } /* 16px by default */
+h1 { font-size: 2em } /* 16px * 2 = 32px */</code></pre>
+
+			<section>
+				<small><i>EM values inherit from their parent</i></small>
+				<iframe height="350px" src="https://codepen.io/jeremychurch/embed/rCcIh" frameborder="0"></iframe>
+			</section>
+
+			<p><code>em</code> can also be used to specify values for other properties in addition to
+				<code>font-size</code>. <code>margin</code>, <code>padding</code> and even <code>line-height</code> are such
+				properties.</p>
+
+			<p>For this reason, the primary purpose of em units should be to allow for scalability within the <b>context of
+					a specific design element.</b></p>
+
+			<section class="btn-example">
+				<h3>Example: button with px vs em</h3>
+				<label>
+					Increment me pls:
+					<input id="fs" type="number" style="margin-bottom: 2rem;">
+				</label>
+				<div>
+					<div class="px">
+						<pre><code>padding: 8px 16px;
+/* Simulates margin */
+box-shadow: 0 0 0 16px greenyellow;
+
+& svg {
+  height: 16px;
+  margin-left: 16px;
+}</code></pre>
+						<button>I am pxd
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" overflow="visible" stroke="black"
+								stroke-linecap="round">
+								<line x2="50" y2="50" />
+								<line x1="50" y2="50" />
+							</svg>
+						</button>
+					</div>
+
+					<div class="em">
+						<pre><code>padding: .5em 1em;
+/* Simulates margin */
+box-shadow: 0 0 0 1em greenyellow;
+
+& svg {
+  height: 1em;
+  margin-left: 1em;
+}</code></pre>
+						<button>I am emd
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" overflow="visible" stroke="black"
+								stroke-linecap="round">
+								<line x2="50" y2="50" />
+								<line x1="50" y2="50" />
+							</svg>
+						</button>
+					</div>
+				</div>
+				<small>NOTE: this is just a showcase, pls never create such components. The problem of inheritance with
+					font-size could get out of hand if applied along multiple levels of ancestory. Em "could" make more sense in
+					"top-level" components such as header/footers, who basically have no ancestors.</small>
+			</section>
+
+		</article>
+
+		<article>
+			<h2>What is rem?</h2>
+			<blockquote><code>rem</code> means <b>Root EM</b>. It’s built to provide some relief to the <code>em</code>
+				inheritance problem that many faced.
+			</blockquote>
+
+			<p>It is a unit of typography equal to the root <code>font-size</code>. This means <code>1rem</code> is always
+				equal to the <code>font-size</code> defined in <code>&lt;html&gt;</code>. Think of it as <code>em</code>s, but
+				better. Actually, just forget about <code>em</code>s!</p>
+
+			<p>Consider the same code as above, written in <code>rem</code>s instead. What are the computed
+				<code>margin-bottom</code> values now?</p>
+			<pre><code>h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem; /* 1rem = 16px */
+}</code></pre>
+
+			<blockquote>Depends on a single source -> easily understandable and scalable</blockquote>
+		</article>
+
+		<article>
+			<h2>Conclusion</h2>
+			<ul>
+				<li>Don't use <code>em</code>s</li>
+				<li>Use <code>rem</code>s for almost everything</li>
+			</ul>
+		</article>
+	</main>
+
+	<script>
+		// Sets default value and reacts on change
+		const element = document.querySelector('.btn-example');
+		window.fs.defaultValue = parseInt(getComputedStyle(element).getPropertyValue('--fs'));
+		window.fs.onchange = (e) => element.style.setProperty('--fs', e.target.value + 'px');
+	</script>
+</body>
+
+</html>
