@@ -47,10 +47,8 @@
 				justify-content: space-between;
 				align-items: center;
 				height: min-content;
-				box-sizing: border-box;
 				appearance: none;
 				border: none;
-				border-radius: 20px;
 
 				border: 2px solid black;
 				background-color: #aaf8ff;
@@ -95,7 +93,7 @@
 			</h4>
 
 			<p>Consider the following:</p>
-			<code>h1 { font-size: 2em } /* ??? */</code>
+			<pre><code>h1 { font-size: 2em } /* ??? */</code></pre>
 			<p>We have to look at the parent element in order to compute the <code>h1</code>'s <code>font-size</code>. Let’s
 				say the parent element is <code>&lt;html&gt;</code>, and its font-size is set to <code>16px</code>.
 			</p>
@@ -182,6 +180,7 @@ box-shadow: 0 0 0 1em greenyellow;
 }</code></pre>
 
 			<blockquote>Depends on a single source -> easily understandable and scalable</blockquote>
+			<small>NOTE: More about <code>rem</code> and it's usage in the following examples.</small>
 		</article>
 
 		<article>
