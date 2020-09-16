@@ -53,6 +53,10 @@ blockquote {
 	}
 }
 
+iframe {
+	width: 100%;
+}
+
 /* spacing */
 main > * + * {
 	margin-top: 3rem;

@@ -5,11 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
 	<style>
-		iframe {
-			width: 100%;
-		}
-
 		.btn-example {
 			--fs: 16px;
 
@@ -57,6 +54,7 @@
 			& .px button {
 				padding: 8px 16px;
 				box-shadow: 0 0 0 16px #ffc2aa;
+				font-size: 16px;
 
 				& svg {
 					height: 16px;
@@ -68,6 +66,7 @@
 				padding: .5em 1em;
 				/* Margin-like */
 				box-shadow: 0 0 0 1em #ffc2aa;
+				font-size: 1em;
 
 				& svg {
 					height: 1em;
@@ -81,28 +80,25 @@
 <body>
 	<main>
 		<h1>rem vs. em – The Great Debate</h1>
-		<blockquote><i>One of the best practices to typography on the web is to use relative units like <code>rem</code> and
+		<blockquote><i>One of the best practices of typography on the web is to use relative units like <code>rem</code> and
 				<code>em</code>.</i>
 		</blockquote>
 		<article>
 			<h2>What is em?</h2>
-			<blockquote cite="https://en.wikipedia.org/wiki/Em_(typography)"><i>An <b>em</b> is a unit of typography, equal to
-					the currently specified point-size.</i></blockquote>
+			<blockquote cite="https://en.wikipedia.org/wiki/Em_(typography)"><i>Unlike in print typography, in CSS, the
+					<code>em</code> unit does not measure width – it measures the height of the font.</i></blockquote>
 
-			<h4>What it means is: <code>1em = 20px</code> if a selector has a <code>font-size</code> of <code>20px</code>.
-			</h4>
-
-			<p>Consider the following:</p>
+			<p>Let's consider the following:</p>
 			<pre><code>h1 { font-size: 2em } /* ??? */</code></pre>
 			<p>We have to look at the parent element in order to compute the <code>h1</code>'s <code>font-size</code>. Let’s
-				say the parent element is <code>&lt;html&gt;</code>, and its font-size is set to <code>16px</code>.
+				say the parent element is <code>&lt;html&gt;</code>, and its font-size is set to <code>16px</code>:
 			</p>
 			<pre><code>html { font-size: 100% } /* 16px by default */
 h1 { font-size: 2em } /* 16px * 2 = 32px */</code></pre>
 
 			<section>
-				<small><i>EM values inherit from their parent</i></small>
 				<iframe height="350px" src="https://codepen.io/jeremychurch/embed/rCcIh" frameborder="0"></iframe>
+				<small>Example of font size inheritance using <code>em</code>s</small>
 			</section>
 
 			<p><code>em</code> can also be used to specify values for other properties in addition to
@@ -123,6 +119,7 @@ h1 { font-size: 2em } /* 16px * 2 = 32px */</code></pre>
 						<pre><code>padding: 8px 16px;
 /* Simulates margin */
 box-shadow: 0 0 0 16px greenyellow;
+font-size: 16px;
 
 & svg {
   height: 16px;
@@ -141,6 +138,7 @@ box-shadow: 0 0 0 16px greenyellow;
 						<pre><code>padding: .5em 1em;
 /* Simulates margin */
 box-shadow: 0 0 0 1em greenyellow;
+font-size: 1em;
 
 & svg {
   height: 1em;
@@ -169,8 +167,7 @@ box-shadow: 0 0 0 1em greenyellow;
 			</blockquote>
 
 			<p>It is a unit of typography equal to the root <code>font-size</code>. This means <code>1rem</code> is always
-				equal to the <code>font-size</code> defined in <code>&lt;html&gt;</code>. Think of it as <code>em</code>s, but
-				better. Actually, just forget about <code>em</code>s!</p>
+				equal to the <code>font-size</code> defined in <code>&lt;html&gt;</code>.</p>
 
 			<p>Consider the same code as above, written in <code>rem</code>s instead. What are the computed
 				<code>margin-bottom</code> values now?</p>
@@ -181,6 +178,19 @@ box-shadow: 0 0 0 1em greenyellow;
 
 			<blockquote>Depends on a single source -> easily understandable and scalable</blockquote>
 			<small>NOTE: More about <code>rem</code> and it's usage in the following examples.</small>
+		</article>
+
+		<article>
+			<h2>Support</h2>
+			<p class="ciu_embed" data-feature="rem" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/rem.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/rem.png">
+					<img src="https://caniuse.bitsofco.de/image/rem.jpg"
+						alt="Data on support for the rem feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
 		</article>
 
 		<article>
