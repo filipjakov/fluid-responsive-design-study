@@ -4,9 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<style></style>
+	<title>ex</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
 </head>
 
 <body>
@@ -17,11 +16,20 @@
 			height of lowercase letters in the font; <code>1ex</code> ≈ <code>0.5em</code> in many fonts.
 		</blockquote>
 
-		<article>
-			<p>Note that the value of this unit relies on the currently used font-family.</p>
-		</article>
 		<img width="100%"
 			src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Typography_Line_Terms.svg/410px-Typography_Line_Terms.svg.png">
+
+		<article>
+			<p>Unlike <code>em</code>s, which don’t change when you change the <code>font-family</code>, <code>ex</code> units
+				do change when you change the <code>font-family</code>, as the value of one unit is specifically bound to that
+				font:</p>
+			<iframe height="300px" src="https://codepen.io/chriscoyier/embed/aDtdv?editors=1100" frameborder="0"></iframe>
+		</article>
+
+		<article>
+			<h2>Support:</h2>
+			<p>Everywhere</p>
+		</article>
 	</main>
 </body>
 

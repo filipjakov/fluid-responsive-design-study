@@ -1,0 +1,83 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fluid responsive design | Home</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+</head>
+
+<body>
+	<h1>CSS Length Units</h1>
+	<p>A CSS unit determines the size of a property you’re setting for an element or its content. For example,
+		if you
+		wanted to set the property margin of a paragraph, you would give it a specific value. This value includes the CSS
+		unit.
+	</p>
+
+	<h2>Absolute vs. Relative Units</h2>
+	<p>When considering all the options for which units to use, it’s important to consider the two categories
+		of units: <b>absolute</b> and <b>relative</b>.</p>
+
+	<article>
+		<h3>Absolute units:</h3>
+		<p>Units that are “absolute” are the same size regardless of the <b>parent element</b> or <b>window size</b>. This
+			means a property set with a value that has an absolute unit will be that size when looked at on a phone or on a
+			large monitor (and everything in between!). Some of the available units are:</p>
+		<ul>
+			<li><i>px</i> - Pixel</li>
+			<li><i>pt</i> - Point</li>
+			<li><i>pc</i> - Pica </li>
+			<li><i>cm</i> - Centimeter</li>
+			<li><i>mm</i> - Millimeter</li>
+			<li><i>in</i> - Inch</li>
+		</ul>
+	</article>
+
+	<article>
+		<h3>Relative units:</h3>
+
+		<span>Motivation:</span>
+		<ul>
+			<li>setting type in apsolute units (<code>px</code>) prevents browser settings from making font size adjustments
+			</li>
+			<li>setting type in relative units maintains greater design fidelity as users use browser zoom</li>
+			<li>absolute units can be less favourable for responsive sites because they don’t scale when the screen size
+				changes</li>
+		</ul>
+
+		<section>
+			<h3>1. Typography related: </h3>
+			<ul>
+				<li><a href="./em-rem.html"><i>em</i> and <i>rem</i></a></li>
+				<li><a href="./ex.html"><i>ex</i></a></li>
+				<li><a href="./ch.html"><i>ch</i></a></li>
+			</ul>
+
+			<h3>2. Viewport-size related: </h3>
+			<ul>
+				<li><a href="./vh-vw.html"><i>vh & vw</i></a></li>
+				<li><a href="./vmin-vmax.html"><i>vmin & vmax</i></a></li>
+			</ul>
+		</section>
+	</article>
+
+	<article>
+		<h3>Conclusion:</h3>
+		<p>Overall, when and how you choose your CSS units will come down to a couple questions:</p>
+		<ul>
+			<li>Do I want what I’m styling to scale when the viewport size changes?</li>
+			<li>If I do want it to scale, what do I want it to scale relative to in the app:
+				<ul>
+					<li>the viewport?</li>
+					<li>the content (text)?</li>
+					<li>the parent or anestor element?</li>
+					<li>or combinations of the items listed above?</li>
+				</ul>
+			</li>
+		</ul>
+		<p>Once you’ve answered these questions, it’s a lot easier to nail down which unit to use.</p>
+	</article>
+</body>
+
+</html>

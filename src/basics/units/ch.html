@@ -1,0 +1,51 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ch</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<h1>ch</h1>
+		<p>This is similar in spirit to x-height, only <code>ch</code> is <b>based on the width</b> of the zero (0)
+			character instead of the height of the x character. It also changes as the <code>font-family</code>,
+			<code>font-style</code> or <code>font-weight</code> changes.</p>
+
+		<p>In monospace
+			(fixed-width) fonts, where all characters are the same width, 1ch equals one character. In proportional
+			(variable-width) fonts, any given character could be wider or narrower than the “0” character.</p>
+
+		<article>
+			<h2>Examples:</h2>
+			<ul>
+				<li>limit the number of character in a line of a paragraph:
+					<pre><code>p { max-width: 60ch }</code></pre>
+				</li>
+				<li>horizontal spacing in text based one-dimensional layouts:
+					<pre><code>nav > a:not(:last-child) { margin-right: 4ch }</code></pre>
+				</li>
+				<li>CCV (Card Verification Value) input:
+					<pre><code>input.ccv { width: 3ch }</code></pre>
+				</li>
+			</ul>
+		</article>
+		<article>
+			<h2>Support</h2>
+			<p class="ciu_embed" data-feature="ch-unit" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/ch-unit.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/ch-unit.png">
+					<img src="https://caniuse.bitsofco.de/image/ch-unit.jpg"
+						alt="Data on support for the ch-unit feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
+		</article>
+	</main>
+</body>
+
+</html>

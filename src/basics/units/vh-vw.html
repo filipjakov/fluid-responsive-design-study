@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>vh-vw</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<article>
+			<h1>vh - viewport height</h1>
+			<blockquote>Relative to the height of the viewport (window or app size). 1vh = 1/100 of the viewport’s height
+			</blockquote>
+
+			<p>So if the height of the viewport is <code>1080px</code>, <code>10vh</code> represents <code>108px</code>, or
+				<code>10%</code> of the viewport height.</p>
+
+			<section>
+				<h2>A common pattern:</h2>
+				<p>Imagine a page with the following markup:</p>
+				<pre><code>&lt;body&gt;
+  &lt;header&gt;...&lt;/header&gt;
+  &lt;main&gt;...&lt;/main&gt;
+  &lt;footer&gt;...&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+			</section>
+
+			<img src="https://ishadeed.com/assets/viewport-units/sticky-footer.png" alt="">
+
+			<p>There may be a case in <code>&lt;main&gt;</code> may not fill our viewport because there is
+				not enough content in it to do so ("sticky footer") A common pattern is to do the following:</p>
+			<pre><code>body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+</code></pre>
+
+			<img src="https://ishadeed.com/assets/viewport-units/sticky-footer-solved.png" alt="">
+
+			<p>which makes <code>&lt;main&gt;</code> fill the the viewport even though it's content does not dictate so.</p>
+
+			<small>NOTE: mention full-screen sections</small>
+		</article>
+
+		<article>
+			<h1>vw - viewport width</h1>
+			<blockquote>Relative to the width of the viewport (window or app size). 1vw = 1/100 of the viewport’s width
+			</blockquote>
+
+			<p>So if the width of the viewport is <code>1440px</code>, <code>10vw</code> represents <code>144px</code>, or
+				<code>10%</code> of the viewport width.</p>
+
+			<section>
+				<h2>Example:</h2>
+				<ul>
+					<li>
+						Changing the <code>font-size</code> depending on the window width (fluid typography):
+						<pre><code>:root {
+  font-size: calc(1rem + .5vw) /* 1440*0.05=7,2 */
+}</code></pre>
+					</li>
+					<li>
+						Useful to constrain the height-to-width ratio of an element:
+						<pre><code>.full-width {
+  width: 100vw;
+  height: calc(100vw * (9/16));
+}</code></pre>
+					</li>
+				</ul>
+			</section>
+		</article>
+
+		<article>
+			<h2>Support:</h2>
+			<p class="ciu_embed" data-feature="viewport-units" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/viewport-units.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/viewport-units.png">
+					<img src="https://caniuse.bitsofco.de/image/viewport-units.jpg"
+						alt="Data on support for the viewport-units feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
+		</article>
+	</main>
+
+</body>
+
+</html>

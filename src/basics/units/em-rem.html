@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<title>em vs. rem</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
 	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
 	<style>
 		.btn-example {
@@ -98,7 +98,8 @@ h1 { font-size: 2em } /* 16px * 2 = 32px */</code></pre>
 
 			<section>
 				<iframe height="350px" src="https://codepen.io/jeremychurch/embed/rCcIh" frameborder="0"></iframe>
-				<small>Example of font size inheritance using <code>em</code>s</small>
+				<small>Making things a tiny bit funkier, em units multiply upon themselves when applied to
+					<code>font-size</code>.</small>
 			</section>
 
 			<p><code>em</code> can also be used to specify values for other properties in addition to
@@ -155,7 +156,8 @@ font-size: 1em;
 				</div>
 				<small>NOTE: this is just a showcase, pls never create such components. The problem of inheritance with
 					font-size could get out of hand if applied along multiple levels of ancestory. Em "could" make more sense in
-					"top-level" components such as header/footers, who basically have no ancestors.</small>
+					components such as headers, footers, grid cards who either have no ancestors or a container who controls the
+					<code>font-size</code>.</small>
 			</section>
 
 		</article>
@@ -181,6 +183,23 @@ font-size: 1em;
 		</article>
 
 		<article>
+			<h2>Additional examples:</h2>
+			<ul>
+				<li><code>em</code>: You want the font of a child element to be half the size of its parent’s
+					<code>font-size</code> (e.g. the paragraph under a section’s title).
+					<pre><code>.child { font-size: 0.5em; }</code></pre>
+				</li>
+
+				<li><code>rem</code>: The <code>font-size</code> should be twice the size as the root element’s font. This could
+					be how you size your headings because they should all be the same size regardless of the parent container.
+					<pre><code>h1 { font-size: 2rem; }</code></pre>
+				</li>
+
+				<li>and many more in the following documents...</li>
+			</ul>
+		</article>
+
+		<article>
 			<h2>Support</h2>
 			<p class="ciu_embed" data-feature="rem" data-periods="future_1,current,past_1,past_2"
 				data-accessible-colours="false">
@@ -191,14 +210,6 @@ font-size: 1em;
 						alt="Data on support for the rem feature across the major browsers from caniuse.com">
 				</picture>
 			</p>
-		</article>
-
-		<article>
-			<h2>Conclusion</h2>
-			<ul>
-				<li>Don't use <code>em</code>s</li>
-				<li>Use <code>rem</code>s for almost everything</li>
-			</ul>
 		</article>
 	</main>
 
