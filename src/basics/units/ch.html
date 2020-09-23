@@ -11,13 +11,22 @@
 <body>
 	<main>
 		<h1>ch</h1>
-		<p>This is similar in spirit to x-height, only <code>ch</code> is <b>based on the width</b> of the zero (0)
-			character instead of the height of the x character. It also changes as the <code>font-family</code>,
-			<code>font-style</code> or <code>font-weight</code> changes.</p>
 
-		<p>In monospace
-			(fixed-width) fonts, where all characters are the same width, 1ch equals one character. In proportional
-			(variable-width) fonts, any given character could be wider or narrower than the “0” character.</p>
+		<article>
+			<p>This is similar in spirit to x-height, only <code>ch</code> is <b>based on the width</b> of the zero (0)
+				character instead of the height of the x character. In the cases where it is impossible or impractical to
+				determine the measure of the “0” glyph, it must be assumed to be <code>0.5em</code> wide by <code>1em</code>
+				tall.
+			</p>
+
+			<p>In monospace
+				(fixed-width) fonts, where all characters are the same width, 1ch equals one character. In proportional
+				(variable-width) fonts, any given character could be wider or narrower than the “0” character.</p>
+
+
+			<p>It also changes as the <code>font-family</code>,
+				<code>font-style</code> or <code>font-weight</code> changes.</p>
+		</article>
 
 		<article>
 			<h2>Examples:</h2>
