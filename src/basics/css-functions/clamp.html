@@ -1,0 +1,80 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fluid responsive design | Functions - clamp</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<h1>clamp()</h1>
+		<blockquote>What <code>clamp()</code> do is that it clamps a value between two defined values, minimum and maximum.
+			It takes three parameters (min value, preferred value, max value).</blockquote>
+
+		<section>
+			<h2>How it works</h2>
+			<p>Consider the following example:</p>
+			<pre><code>.element { width: clamp(200px, 50%, 1000px); }</code></pre>
+			<p>We have an element with a minimum width of <code>200px</code>, a preferred value of <code>50%</code>, and a
+				maximum value of <code>1000px</code>. Let’s visualize that!</p>
+			<img src="https://ishadeed.com/assets/comparison-css/css-clamp-1.jpg" alt="">
+			<p>Here is a recap for the example above:</p>
+			<ul>
+				<li>The width will never go below <code>200px</code>,</li>
+				<li>The central (preferred) value is <code>50%</code> and will only work if the viewport width is greater than
+					<code>400px</code> and less than <code>2000px</code>,</li>
+				<li>The width won’t go above <code>1000px</code></li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>How is clamp() calculated?</h2>
+			<pre><code>.e {
+  width: clamp(200px, 50%, 1000px);
+  /* Is equivalent to the below */
+  width: max(200px, min(50%, 1000px));
+}</code></pre>
+
+			<p>The value 50% depends on the browser viewport width, let’s assume that the viewport width is 1150px.</p>
+
+			<pre><code>.e {
+  width: max(200px, min(50%, 1000px));
+  /* Assuming the viewport width is 1150px */
+  width: max(200px, min(575px, 1000px));
+  /* Resolves to */
+  width: max(200px, 575px);
+  /* Resolves to */
+  width: 575px;
+}</code></pre>
+		</section>
+
+		<section>
+			<h2>Example: Grid gap</h2>
+			With <code>clamp()</code>, this is fairly easy.</p>
+			<img src="https://ishadeed.com/assets/comparison-css/use-case-grid-gap.jpg" alt="">
+			<p>A lovely use-case is when we have a grid-gap using CSS grid, and we want to make smaller for mobile viewports.
+			<pre><code>.wrapper {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: clamp(1rem, 2vw, 1.5rem);
+}</code></pre>
+		</section>
+
+		<section>
+			<h2>Support:</h2>
+			<p class="ciu_embed" data-feature="css-math-functions" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/css-math-functions.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/css-math-functions.png">
+					<img src="https://caniuse.bitsofco.de/image/css-math-functions.jpg"
+						alt="Data on support for the css-math-functions feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
+		</section>
+	</main>
+</body>

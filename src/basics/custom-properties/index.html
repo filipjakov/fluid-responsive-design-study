@@ -17,19 +17,21 @@
 		}
 
 		::-webkit-scrollbar-track {
-			background: black;
+			background: transparent;
 		}
 
 		::-webkit-scrollbar-thumb {
-			--height: calc(360 * var(--mouse-y) / var(--page-height));
-			background: linear-gradient(hsl(var(--height), 100%, 50%), hsl(var(--height), 50%, 50%));
+			--hue: calc(360 * var(--mouse-y) / var(--page-height));
+
+			background: linear-gradient(hsl(var(--hue), 100%, 100%), hsl(var(--hue), 100%, 50%));
 		}
 
 		.cursor {
 			position: absolute;
 			top: 0;
 			left: 0;
-			transform: translate(clamp(2.5vw, calc(var(--mouse-x) * 1px), 95vw), calc(var(--mouse-y) * 1px)) translate(-50%, -50%);
+			transform: translate(clamp(2.5vw, calc(var(--mouse-x) * 1px), 95vw),
+					calc(var(--mouse-y) * 1px)) translate(-50%, -50%);
 			width: 5vw;
 			height: 5vw;
 			background-color: transparent;
@@ -45,7 +47,7 @@
 				width: 100%;
 				height: 100%;
 				border-radius: 50%;
-				border: 2px dashed salmon;
+				border: 1px dashed salmon;
 
 				animation: rotate 20s infinite;
 			}
@@ -82,14 +84,131 @@
 	<main>
 		<h1>Custom properties (--*): CSS variables</h1>
 
-		<article>
-			<blockquote>Property names that are prefixed with <code>--</code>, like <code>--example-name</code>, represent
-				custom properties that contain a value that can be used in other declarations using the <code>var()</code>
-				function.
-			</blockquote>
-		</article>
+		<blockquote>Property names that are prefixed with <code>--</code>, like <code>--example-name</code>, represent
+			custom properties that contain a value that can be used in other declarations using the <code>var()</code>
+			function.
+		</blockquote>
 
-		<article>
+		<section>
+			<h2>How to use them?</h2>
+			<pre><code>:root {
+  --main-color: orange
+}
+a {
+  /* Notice the fallback */
+  color: var(--main-color, red)
+}</code></pre>
+
+			<section>
+				<h2>They follow the cascade</h2>
+				<p>CSS variables are resolved per element, not per scope, and they inherit like normal properties. Take the
+					following example of CSS variables:</p>
+				<pre><code>:root { --shadow-color: gray; }
+
+button {
+  box-shadow: .1em .1em .1em var(--shadow-color);
+
+  &:hover {
+    --shadow-color: skyblue;
+  }
+}</code></pre>
+			</section>
+		</section>
+
+		<section>
+			<h2>CSS variables facilitate true separation of behavior and style</h2>
+			<p>Used properly, styling can stay in the CSS and computation in the JavaScript, where each belongs:</p>
+
+			<section>
+				<h3>Example: mouse follower on this page</h3>
+				<pre><code>let ticking = false;
+
+// Mouse changes
+document.addEventListener('mousemove', ({ pageX: x, pageY: y }) => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      document.documentElement.style.setProperty('--mouse-x', x);
+      document.documentElement.style.setProperty('--mouse-y', y);
+      ticking = false;
+    })
+    ticking = true;
+  }
+});
+				</code></pre>
+				<code><pre>.cursor {
+position: absolute;
+top: 0;
+left: 0;
+
+transform: translate(-50%, -50%)
+  translate(
+    clamp(2.5vw, calc(var(--mouse-x) * 1px), 95vw),
+    calc(var(--mouse-y) * 1px)
+  );
+
+width: 5vw;
+height: 5vw;
+
+transition: 0.3s all ease-out;
+
+  &::before {
+    /* animates rotation */
+  }
+}</pre></code>
+			</section>
+		</section>
+
+		<section>
+			<h2>CSS variables facilitate style encapsulation</h2>
+			<p>CSS variables also make it possible to reuse and customize CSS code, since they make encapsulation possible.
+				Suppose we’ve created a flat button style applied with the class <code>.flat</code>. Its (simplified) CSS code
+				looks like this:</p>
+			<pre><code>button.flat {
+  border: .1em solid black;
+  background: transparent;
+  color: black;
+}
+
+button.flat:hover {
+  background: black;
+  color: white;
+}</code></pre>
+
+			<p>Say we want different colored buttons for different actions, such as a red button for a dangerous action. We
+				could support a <code>.danger</code> modifier class and override the relevant declarations:</p>
+			<pre><code>button.flat.danger {
+  border-color: red;
+  color: red;
+}
+
+button.flat.danger:hover {
+  background: red;
+  color: white;
+}</code></pre>
+
+			<p>To avoid duplication, let’s replace the color with a variable:</p>
+			<code><pre>button {
+  --color-initial: black;
+  border: .1em solid var(--color, var(--color-initial));
+  background: transparent;
+  color: var(--color, var(--color-initial));
+}
+
+button:hover {
+  background: var(--color, var(--color-initial));
+  color: white;
+}</pre></code>
+
+			<p>Now theming is a matter of overriding one property: <code>--color</code>:</p>
+			<pre><code>button.flat.danger { --color: red; }</code></pre>
+		</section>
+
+		<section>
+			<h2>More examples:</h2>
+			<iframe height="400px" src="https://codepen.io/phebert/embed/QWwONMy" frameborder="0"></iframe>
+		</section>
+
+		<section>
 			<h2>Support:</h2>
 			<p class="ciu_embed" data-feature="css-variables" data-periods="future_1,current,past_1,past_2"
 				data-accessible-colours="false">
@@ -100,7 +219,7 @@
 						alt="Data on support for the css-variables feature across the major browsers from caniuse.com">
 				</picture>
 			</p>
-		</article>
+		</section>
 	</main>
 	<div class="cursor"></div>
 	<script>

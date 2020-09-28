@@ -1,0 +1,145 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fluid responsive design | Functions - min</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<h1>min() & max()</h1>
+
+		<article>
+			<h2>min()</h2>
+			<blockquote>The <code>min()</code> function contains one or more comma-separated calculations and represents the
+				smallest value of them.</blockquote>
+			<h3>Example:</h3>
+			<pre><code>.e {
+  width: min(50%, 500px);
+}</code></pre>
+			<p>Consider the following example:</p>
+			<img src="https://ishadeed.com/assets/comparison-css/css-min-1.jpg" alt="">
+
+			<p>The browser has to choose the smallest of the values (<code>50%</code>, <code>500px</code>). Choosing that
+				depends on the viewport width. If <code>50%</code> computes to a value more than <code>500px</code>, then it
+				will be ignored and <code>500px</code> will be used instead.</p>
+			<img src="https://ishadeed.com/assets/comparison-css/css-min-2.jpg" alt="">
+			<p>Otherwise, if the <code>50%</code> computes to a value less than <code>500px</code>, then the <code>50%</code>
+				will be used as a value for the width.
+			</p>
+
+			<section>
+				<h3>Example: Sidebar And Main</h3>
+				<p>Usually, the sidebar of a page has a fixed with and the main width is flexible. We can enhance the sidebar
+					and make it more dynamic and occupy more space if the viewport is large enough. To achieve that, we need to
+					set a minimum width for it using <code>max()</code> function.
+				</p>
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-sidebar.jpg" alt="">
+				<p>Consider the below example.</p>
+				<pre><code>.wrapper { display: flex; }
+aside { flex-basis: max(30vw, 150px); }
+main { flex-grow: 1; }</code></pre>
+				<p>The aside minimum width is <code>150px</code>, and it will be <code>30vw</code> if the viewport width is
+					greater than <code>500px</code> (500 * 0.3 = 150).</p>
+				<small>Check <a href="https://codepen.io/shadeed/pen/7f9558f31fdf60bc08c827817c10bf3a?editors=1100">this live
+						example</a></small>
+			</section>
+
+			<section>
+				<h3>Example: Smoothing Gradients</h3>
+				<p>Consider the following:</p>
+				<pre><code>.element {
+  background: linear-gradient(
+    135deg,
+    #2c3e50, #2c3e50 60%, #3498db
+  );
+}</code></pre>
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-gradients-1.jpg" alt="">
+				<p>Instead of media queries, we can use the <code>min()</code> CSS function to make this thing more dynamic:</p>
+				<pre><code>.element {
+  background: linear-gradient(
+    135deg,
+    #2c3e50, #2c3e50 min(20vw, 60%), #3498db
+  );
+}</code></pre>
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-gradients-2.jpg" alt="">
+			</section>
+		</article>
+
+		<article>
+			<h2>max()</h2>
+			<blockquote>The <code>max()</code> function contains one or more comma-separated calculations and represents the
+				largest value of them.</blockquote>
+			<p>Consider the following example:</p>
+			<img src="https://ishadeed.com/assets/comparison-css/css-max-1.jpg" alt="">
+			<p>The browser has to choose the largest of the values (<code>50%</code>, <code>500px</code> ). Choosing that
+				depends on the viewport width. If <code>50%</code> computes to a value less than <code>500px</code>, then it
+				will be ignored and <code>500px </code> will be used.</p>
+			<p>Otherwise, if the <code>50%</code> computes to a value more than <code>500px</code>, then the <code>50%</code>
+				will be used as a value for the width. It’s the opposite of the <code>min()</code> function.</p>
+
+			<section>
+				<h3>Example: transparent gradient</h3>
+				<p>When you need to place text over a photo, you should have a gradient below it to make the text readable.
+					The gradient size should vary between small and large viewports. See the below figure:</p>
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-gradients-3-1.jpg" alt="">
+				<p>Consider the following:</p>
+				<pre><code>.element {
+  background: linear-gradient(
+    to top,
+    #000 0, transparent max(20%, 20vmin)
+  );
+}</code></pre>
+				<p>That little enhancement can make the gradient look more logical on mobile. If the gradient size is 50% of its
+					parent on desktop, this should be around ~30% for mobile. By using the <code>max()</code> function, we can set
+					a minimum value for it.</p>
+			</section>
+		</article>
+
+		<article>
+			<h2>Common quirks:</h2>
+			<ul>
+				<li>
+					Sometimes pretty basic usage allows for tighter code, but the change to get there feels a little mind-bending:
+					<pre><code>.el {
+  width: 75%;
+  max-width: 600px;
+
+  /* tighter, but the change */
+  /* from max to min feels weird */
+  width: min(75%, 600px);
+}</code></pre>
+				</li>
+				<li>
+					<code>min()</code> and <code>max()</code> can take more than two values, which is cool, but hard to keep
+					straight what is going on:
+					<pre><code>.el {
+  width: min(100px, 25%, 50vh, 30ch);
+}</code></pre>
+				</li>
+				<li>
+					You don’t need a <code>calc()</code> to do math inside:
+					<pre><code>.el {
+  width: min(10vw + 10%, 100px);
+}</code></pre>
+				</li>
+			</ul>
+		</article>
+
+		<article>
+			<h2>Support:</h2>
+			<p class="ciu_embed" data-feature="css-math-functions" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/css-math-functions.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/css-math-functions.png">
+					<img src="https://caniuse.bitsofco.de/image/css-math-functions.jpg"
+						alt="Data on support for the css-math-functions feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
+		</article>
+	</main>
+</body>

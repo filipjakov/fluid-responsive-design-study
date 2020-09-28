@@ -1,0 +1,134 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fluid responsive design | Functions - calc</title>
+	<link rel="stylesheet" type="text/css" href="../../styles.css">
+	<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<h1>calc()</h1>
+		<blockquote>The <code>calc()</code> CSS function lets you perform calculations when specifying CSS property values.
+		</blockquote>
+
+		<article>
+			<h2>calc() is for values</h2>
+			<p>The only place you can use the calc() function is in values:</p>
+			<ul>
+				<li>
+					Can be used in property values:
+					<pre><code>.el {
+  width: calc(100% - 20px);
+  height: calc(100vh - 20px);
+}</code></pre>
+				</li>
+				<li>
+					Can be used as a <i>part</i> of a property:
+					<pre><code>.el {
+  margin: 10px calc(2vw + 5px);
+  border-radius: 15px calc(15px / 3) 4px 2px;
+  transition: transform calc(1s - 120ms);
+}</code></pre>
+				</li>
+				<li>
+					can even be a <i>part of another function</i> that forms a part of a property
+					<pre><code>.el {
+  background: #1E88E5 linear-gradient(
+    to bottom,
+    #1E88E5,
+    #1E88E5 calc(50% - 10px),
+    #3949AB calc(50% + 10px),
+    #3949AB
+  );
+}</code></pre>
+				</li>
+			</ul>
+		</article>
+
+		<article>
+			<h2>calc() is for lengths and other numeric things</h2>
+			<ul>
+				<li>
+					A nope:
+					<pre><code>.el {
+  /* Nope! */
+  counter-reset: calc("My " + "counter");
+}</code></pre>
+				</li>
+				<li>
+					Can work with unitless numbers:
+					<pre><code>.el {
+  line-height: calc(1.2 * 1.2);
+}</code></pre>
+				</li>
+				<li>
+					You can also not perform any calculation and it is still valid:
+					<pre><code>.el {
+  /* Weird flex but OK */
+  width: calc(20px);
+}</code></pre>
+				</li>
+			</ul>
+		</article>
+
+		<article>
+			<h2>Mixing units</h2>
+
+			<pre><code>.el {
+  width: calc(100% - 20px);
+  height: calc(100vh - 20vmin);
+  transform: rotate(calc(1turn + 45deg));
+  animation-delay: calc(1s + 15ms);
+}</code></pre>
+		</article>
+
+		<article>
+			<h2>Some rules:</h2>
+			<p>NOTE: Invalid values invalidate the whole individual declaration</p>
+			<ul>
+				<li>Addition (+) and subtraction (-) require both numbers to be lengths,</li>
+				<li>Division (/) requires the second number to be unitless,</li>
+				<li>Multiplication (*) requires one of the numbers to be unitless,</li>
+				<li>
+					Whitespace matters:
+					<pre><code>.el {
+  /* Valid 👍 */
+  font-size: calc(3vw + 2px);
+
+  /* Invalid 👎 */
+  font-size: calc(3vw+2px);
+
+  /* Valid 👍 */
+  font-size: calc(3vw - 2px);
+
+  /* Invalid 👎 */
+  font-size: calc(3vw-2px);
+}</code></pre>
+				</li>
+				<li>
+					You can nest <code>calc()</code>s but it's usually not necessary:
+					<pre><code>.el {
+  /* 👍 */
+  width: calc((100% / 3) - (1rem * 2));
+}</code></pre>
+				</li>
+			</ul>
+		</article>
+
+		<article>
+			<h2>Support</h2>
+			<p class="ciu_embed" data-feature="calc" data-periods="future_1,current,past_1,past_2"
+				data-accessible-colours="false">
+				<picture>
+					<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/calc.webp">
+					<source type="image/png" srcset="https://caniuse.bitsofco.de/image/calc.png">
+					<img src="https://caniuse.bitsofco.de/image/calc.jpg"
+						alt="Data on support for the calc feature across the major browsers from caniuse.com">
+				</picture>
+			</p>
+		</article>
+	</main>
+</body>
