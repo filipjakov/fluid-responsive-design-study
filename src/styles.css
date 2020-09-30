@@ -1,9 +1,7 @@
 @import 'normalize.css';
-@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700';
 
 :root {
-	--bg-color: #566b78;
-
 	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
@@ -17,7 +15,7 @@ body {
 
 	line-height: 1.5; /* TODO */
 
-	color: var(--bg-color);
+	color: #566b78;
 }
 
 h1,

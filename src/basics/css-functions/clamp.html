@@ -55,13 +55,16 @@
 			<h2>Example: Grid gap</h2>
 			With <code>clamp()</code>, this is fairly easy.</p>
 			<img src="https://ishadeed.com/assets/comparison-css/use-case-grid-gap.jpg" alt="">
-			<p>A lovely use-case is when we have a grid-gap using CSS grid, and we want to make smaller for mobile viewports.
+			<p>A lovely use-case is when we have a grid-gap using CSS grid, and we want to it make smaller for mobile
+				viewports.
 			<pre><code>.wrapper {
   display: grid;
   grid-template-columns:
     repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: clamp(1rem, 2vw, 1.5rem);
 }</code></pre>
+			<small>Check the live example <a
+					href="https://codepen.io/shadeed/pen/a14c7d9fcbbae84340a4f83833294f5b?editors=1100">here</a></small>
 		</section>
 
 		<section>

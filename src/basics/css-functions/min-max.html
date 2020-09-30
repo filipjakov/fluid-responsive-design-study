@@ -17,10 +17,10 @@
 			<blockquote>The <code>min()</code> function contains one or more comma-separated calculations and represents the
 				smallest value of them.</blockquote>
 			<h3>Example:</h3>
+			<p>Consider the following example:</p>
 			<pre><code>.e {
   width: min(50%, 500px);
 }</code></pre>
-			<p>Consider the following example:</p>
 			<img src="https://ishadeed.com/assets/comparison-css/css-min-1.jpg" alt="">
 
 			<p>The browser has to choose the smallest of the values (<code>50%</code>, <code>500px</code>). Choosing that
@@ -32,40 +32,25 @@
 			</p>
 
 			<section>
-				<h3>Example: Sidebar And Main</h3>
-				<p>Usually, the sidebar of a page has a fixed with and the main width is flexible. We can enhance the sidebar
-					and make it more dynamic and occupy more space if the viewport is large enough. To achieve that, we need to
-					set a minimum width for it using <code>max()</code> function.
-				</p>
-				<img src="https://ishadeed.com/assets/comparison-css/use-case-sidebar.jpg" alt="">
-				<p>Consider the below example.</p>
-				<pre><code>.wrapper { display: flex; }
-aside { flex-basis: max(30vw, 150px); }
-main { flex-grow: 1; }</code></pre>
-				<p>The aside minimum width is <code>150px</code>, and it will be <code>30vw</code> if the viewport width is
-					greater than <code>500px</code> (500 * 0.3 = 150).</p>
-				<small>Check <a href="https://codepen.io/shadeed/pen/7f9558f31fdf60bc08c827817c10bf3a?editors=1100">this live
-						example</a></small>
-			</section>
+				<h3>Example: Dynamic Margin</h3>
+				<p>We can have a dynamic margin between design elements by using CSS viewport units. However, that might not be
+					always a good solution since the user might view the design from a rotated screen with a long vertical height.
+					Here is how we do this with media queries:</p>
+				<pre><code>h1, h2, h3, h4, h5 {
+  margin: 7vh 0 1rem;
+}
 
-			<section>
-				<h3>Example: Smoothing Gradients</h3>
-				<p>Consider the following:</p>
-				<pre><code>.element {
-  background: linear-gradient(
-    135deg,
-    #2c3e50, #2c3e50 60%, #3498db
-  );
+@media (max-height: 2000px) {
+  h1, h2, h3, h4, h5 {
+    margin: 2rem 0 1rem;
+  }
 }</code></pre>
-				<img src="https://ishadeed.com/assets/comparison-css/use-case-gradients-1.jpg" alt="">
-				<p>Instead of media queries, we can use the <code>min()</code> CSS function to make this thing more dynamic:</p>
-				<pre><code>.element {
-  background: linear-gradient(
-    135deg,
-    #2c3e50, #2c3e50 min(20vw, 60%), #3498db
-  );
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-vertical-spacing.jpg" alt="">
+
+				<p>While the above solution works, we can do the same with one line of code only!</p>
+				<pre><code>h1, h2, h3, h4, h5 {
+  margin: min(7vh, 2rem) 0 1rem;
 }</code></pre>
-				<img src="https://ishadeed.com/assets/comparison-css/use-case-gradients-2.jpg" alt="">
 			</section>
 		</article>
 
@@ -81,6 +66,24 @@ main { flex-grow: 1; }</code></pre>
 			<p>Otherwise, if the <code>50%</code> computes to a value more than <code>500px</code>, then the <code>50%</code>
 				will be used as a value for the width. It’s the opposite of the <code>min()</code> function.</p>
 
+
+			<section>
+				<h3>Example: Sidebar And Main</h3>
+				<p>Usually, the sidebar of a page has a fixed width and the main width is flexible. We can enhance the sidebar
+					and make it more dynamic and occupy more space if the viewport is large enough. To achieve that, we need to
+					set a minimum width for it using <code>max()</code> function.
+				</p>
+				<p>Consider the below example.</p>
+				<pre><code>.wrapper { display: flex; }
+aside { flex-basis: max(30vw, 150px); }
+main { flex-grow: 1; }</code></pre>
+				<img src="https://ishadeed.com/assets/comparison-css/use-case-sidebar.jpg" alt="">
+				<p>The aside minimum width is <code>150px</code>, and it will be <code>30vw</code> if the viewport width is
+					greater than <code>500px</code> (500 * 0.3 = 150).</p>
+				<small>Check <a href="https://codepen.io/shadeed/pen/7f9558f31fdf60bc08c827817c10bf3a?editors=1100">this live
+						example</a></small>
+			</section>
+
 			<section>
 				<h3>Example: transparent gradient</h3>
 				<p>When you need to place text over a photo, you should have a gradient below it to make the text readable.
@@ -90,7 +93,7 @@ main { flex-grow: 1; }</code></pre>
 				<pre><code>.element {
   background: linear-gradient(
     to top,
-    #000 0, transparent max(20%, 20vmin)
+    #000 0, transparent max(20%, 20vw)
   );
 }</code></pre>
 				<p>That little enhancement can make the gradient look more logical on mobile. If the gradient size is 50% of its

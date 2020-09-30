@@ -80,12 +80,10 @@
 <body>
 	<main>
 		<h1>rem vs. em – The Great Debate</h1>
-		<blockquote><i>One of the best practices of typography on the web is to use relative units like <code>rem</code> and
-				<code>em</code>.</i>
-		</blockquote>
+
 		<article>
 			<h2>What is em?</h2>
-			<blockquote cite="https://en.wikipedia.org/wiki/Em_(typography)"><i>Unlike in print typography, in CSS, the
+			<blockquote cite="https://en.wikipedia.org/wiki/Em_(typography)"><i>Unlike in print typography, the CSS
 					<code>em</code> unit does not measure width – it measures the height of the font.</i></blockquote>
 
 			<p>Let's consider the following:</p>
@@ -185,13 +183,11 @@ font-size: 1em;
 		<article>
 			<h2>Additional examples:</h2>
 			<ul>
-				<li><code>em</code>: You want the font of a child element to be half the size of its parent’s
-					<code>font-size</code> (e.g. the paragraph under a section’s title).
-					<pre><code>.child { font-size: 0.5em; }</code></pre>
+				<li><code>em</code>: You want the icons in your buttons to always be 3/4 the size of the textual content:
+					<pre><code>button > svg { height: 0.75em; width: auto; }</code></pre>
 				</li>
 
-				<li><code>rem</code>: The <code>font-size</code> should be twice the size as the root element’s font. This could
-					be how you size your headings because they should all be the same size regardless of the parent container.
+				<li><code>rem</code>: Sizing your headings in order to be the same size regardless of the parent container:
 					<pre><code>h1 { font-size: 2rem; }</code></pre>
 				</li>
 
