@@ -6,10 +6,107 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Fluid responsive design | Typography - font size</title>
 	<link rel="stylesheet" type="text/css" href="../styles.css">
+	<style>
+		main {
+			font-size: 16px;
+		}
+
+		/*  */
+		section:nth-of-type(1) {
+			--size: calc(1em + .5vw);
+			font-size: var(--size);
+		}
+
+		/*  */
+		section:nth-of-type(2) {
+			--size: calc(1em + (1.5 - 1) * (100vw - 20em)/(75 - 20));
+			font-size: var(--size);
+		}
+
+
+		@media (min-width: 1200px) {
+			section {
+				font-size: 24px !important;
+			}
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Fluid font size</h1>
+	<main>
+		<h1>Fluid font size</h1>
+		<p>The core trickery comes from viewport units. You can literally set type in viewport units (e.g. <code>font-size:
+			4vw</code>), but the fluctuations in size are so extreme that it’s usually undesirable.</p>
+
+		<h2>How we currently do it:</h2>
+		<pre><code>:root {
+  font-size: 100%;
+}
+
+h1 {
+  font-size: 2.25rem; // 36px
+}
+
+@media (min-width: 700px){
+  h1 {
+    font-size: 3.5rem; // 56px
+  }
+}
+
+@media (min-width: 1000px){
+  h1 {
+    font-size: 4.75rem; // 76px
+  }
+}</code></pre>
+
+		<section>
+			<h2>1. Rise until lock</h2>
+			<p><code>font-size:</code><span class="font-size" style="display: inline-block; margin-left: 1ch;"></span></p>
+			<pre><code>:root {
+  font-size: calc(100% + .5vw);
+}
+
+@media (min-width: 1200px) {
+  :root {
+    font-size: 1.5rem;
+  }
+}</code></pre>
+		</section>
+
+		<section>
+			<h2>2. CSS Locks</h2>
+			<p>Below is a CSS lock that interpolates between a <code>font-size</code> of <code>16px</code> and
+				<code>24px</code> between the two screen sizes of <code>320px</code> and <code>1200px</code>. The locking is
+				handled by the media query directly below it, without it the growth would continue at the same rate forever.</p>
+			<p><code>font-size:</code><span class="font-size" style="display: inline-block; margin-left: 1ch;"></span></p>
+			<img
+				src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/35750bd7-390a-4608-bfa8-add0c1257e1f/advanced-calc-800-opt.png"
+				alt="">
+			<pre><code>:root {
+  font-size: calc(
+    16px +
+    (24 - 16) * (100vw - 320px)/(1200 - 320)
+  );
+}
+
+@media (min-width: 1200px) {
+  :root {
+    font-size: 24px;
+  }
+}</code></pre>
+			<img src="https://utopia.fyi/images/lock-graph.png" alt="">
+		</section>
+	</main>
+	<script>
+		const resizeObserver = new ResizeObserver(entries => {
+			for (const entry of entries) {
+				entry.target.querySelector(':scope .font-size').innerHTML = getComputedStyle(entry.target).fontSize;
+			}
+		});
+
+		resizeObserver.observe(document.querySelector('section:nth-of-type(1)'));
+		resizeObserver.observe(document.querySelector('section:nth-of-type(2)'));
+	</script>
 </body>
 
 </html>
