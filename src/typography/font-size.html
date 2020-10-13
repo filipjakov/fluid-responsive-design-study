@@ -23,6 +23,17 @@
 			font-size: var(--size);
 		}
 
+		/*  */
+		section:nth-of-type(3) {
+			--size: clamp(1rem, 1rem + 0.5vw, 1.5rem);
+			font-size: var(--size) !important;
+		}
+
+		section:nth-of-type(4) {
+			--size: clamp(1rem, 0.63rem + 1.8vw, 2rem);
+			font-size: var(--size) !important;
+		}
+
 
 		@media (min-width: 1200px) {
 			section {
@@ -44,18 +55,18 @@
 }
 
 h1 {
-  font-size: 2.25rem; // 36px
+  font-size: 2rem; // 36px
 }
 
-@media (min-width: 700px){
+@media (min-width: 720px) {
   h1 {
-    font-size: 3.5rem; // 56px
+    font-size: 3rem; // 48px
   }
 }
 
-@media (min-width: 1000px){
+@media (min-width: 1080px) {
   h1 {
-    font-size: 4.75rem; // 76px
+    font-size: 4rem; // 56px
   }
 }</code></pre>
 
@@ -71,10 +82,18 @@ h1 {
     font-size: 1.5rem;
   }
 }</code></pre>
+
+			<h3>Cons:</h3>
+			<ul>
+				<li>hard to match the final values and the lock</li>
+				<li>the <code>font-size</code> would match the minumum value when the viewport gets 0</li>
+				<li>we are still using a media query</li>
+			</ul>
 		</section>
 
 		<section>
 			<h2>2. CSS Locks</h2>
+			<img src="https://blog.logrocket.com/wp-content/uploads/2019/10/minimum-font-size-nocdn.png" alt="">
 			<p>Below is a CSS lock that interpolates between a <code>font-size</code> of <code>16px</code> and
 				<code>24px</code> between the two screen sizes of <code>320px</code> and <code>1200px</code>. The locking is
 				handled by the media query directly below it, without it the growth would continue at the same rate forever.</p>
@@ -95,6 +114,91 @@ h1 {
   }
 }</code></pre>
 			<img src="https://utopia.fyi/images/lock-graph.png" alt="">
+			<h3>Cons:</h3>
+			<ul>
+				<li>(not really a problem) when going between the lower boundary, the <code>font-size</code> gets smaller than
+					the minumum</li>
+				<li>a bit verbose and hard to figure out what's going on (learning curve)</li>
+				<li>we practicly moved the media query in the lock</li>
+				<li>we still have a media query</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>3. The <code>clamp()</code></h2>
+			<p><code>font-size:</code><span class="font-size" style="display: inline-block; margin-left: 1ch;"></span></p>
+			<pre><code>:root{
+  font-size: clamp(1rem, 1rem + .5vw, 1.5rem);
+}</code></pre>
+			<h3>Cons:</h3>
+			<ul>
+				<li>hard to predict on which viewport size the final value kicks in</li>
+				<li>the <code>font-size</code> would match the minumum value when the viewport gets 0</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>4. The holy <code>clamp()</code> 👼 👼 👼</h2>
+			<h3>Overture:</h3>
+			<ul>
+				<li>Pick your minimum and maximum font sizes, and your minimum and maximum viewport widths. In our example,
+					that’s <code>1rem</code> and <code>2rem</code> for the font sizes, and <code>320px</code> and
+					<code>1200px</code> for the widths.</li>
+				<li>Convert the widths to <code>rem</code>. Since <code>1rem</code> on most browsers is <code>16px</code> by
+					default, that’s what we’re going to use. So, now the minimum and maximum viewport widths
+					will be <code>20rem</code> and <code>75rem</code>, respectively.
+				</li>
+				<li>Here, we’re gonna lean a bit to the math side. When paired together, the viewport widths and the font sizes
+					make two points on an X and Y coordinate system, and those points make a line.
+					<img src="../../public/linear.png" alt="">
+					<br />
+					<img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Linear_Function_Graph.svg" alt="">
+
+					<p>We kinda need that line — or rather its slope and its intersection with the Y axis to be more specific.
+						Here’s how to calculate that:</p>
+
+					<pre><code>slope = (maxFontSize - minFontSize) / (maxWidth - minWidth)
+yAxisIntersection = -minWidth * slope + minFontSize</code></pre>
+
+					<pre><code>y = 0.01818181818181818x + 0.6363636363636364</code></pre>
+				</li>
+				<li>Now we build the clamp() function. The formula for the preferred value is:
+					<pre><code>preferredValue = yAxisIntersection[rem] + (slope * 100)[vw]</code></pre>
+					So the function ends up being:
+					<pre><code>font-size: clamp(1rem, 0.63rem + 1.8vw, 2rem);</code></pre>
+				</li>
+				<p><code>font-size:</code><span class="font-size" style="display: inline-block; margin-left: 1ch;"></span></p>
+			</ul>
+
+			<h3>Cons:</h3>
+			<ul>
+				<li>it only works as long as the root’s font size is the one you think it is — which is 16px in the previous
+					example — and never changes. There is only one approach we can use here, and it’s:
+					<ul>
+						<li>making the necessary
+							calculations in code on page load</li>
+						<li>listening for changes to the root’s font size</li>
+						<li>re-calculating
+							everything if any changes take place. (utilizing CSS custom properties)</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Final notes (from <a href="https://adrianroselli.com/2019/12/responsive-type-and-zoom.html">here</a>):</h2>
+			<ul>
+				<li>Please be careful with maximum
+					text size. If you prevent the text from scaling up 200%, then that is a WCAG
+					SC 1.4.4 failure at Level AA. Viewport units have their own call-out as a major risk in WCAG.</li>
+				<li>Your text should never get smaller when the user zooms, and it certainly should not be smaller at 300% zoom.
+					<video controls style="max-width: 90%; display: block; margin: 1rem auto;">
+						<source src="https://adrianroselli.com/wp-content/uploads/2019/12/responsive-type-example_02.mp4">
+						</source>
+					</video>
+				</li>
+				<li>Test, test, test</li>
+			</ul>
 		</section>
 	</main>
 	<script>
@@ -106,6 +210,8 @@ h1 {
 
 		resizeObserver.observe(document.querySelector('section:nth-of-type(1)'));
 		resizeObserver.observe(document.querySelector('section:nth-of-type(2)'));
+		resizeObserver.observe(document.querySelector('section:nth-of-type(3)'));
+		resizeObserver.observe(document.querySelector('section:nth-of-type(4)'));
 	</script>
 </body>
 

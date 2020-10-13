@@ -6,10 +6,160 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Fluid responsive design | Typography - line height</title>
 	<link rel="stylesheet" type="text/css" href="../styles.css">
+	<style>
+		iframe {
+			height: 400px;
+		}
+
+		table {
+			border-spacing: 2ch;
+			width: 100%;
+
+			& td {
+				text-align: center;
+			}
+		}
+	</style>
 </head>
 
 <body>
 	<h1>Fluid line height</h1>
+	<blockquote>The <code>line-height</code> CSS property sets the height of a line box. It's commonly used to set the
+		distance between lines of text.
+	</blockquote>
+	<section>
+		<h2>Example:</h2>
+		<ul>
+			<li>
+				<p style="line-height: 1;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque
+					voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus (1).
+				</p>
+			</li>
+			<li>
+				<p style="line-height: 1.5;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus
+					(1.5).</p>
+			</li>
+			<li>
+				<p style="line-height: 2;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque
+					voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus. (2)
+				</p>
+			</li>
+		</ul>
+
+		<p>Although we can apply any CSS length unit to <code>line-height</code>, a unitless 1.5 value for small and 1.1 for
+			large text is the recommended way to handle it.
+		</p>
+		<img
+			src="https://d33wubrfki0l68.cloudfront.net/a91f9a659b7b50fad7504bfd68bfb3415aafed32/b43c9/assets/images/using-calc-to-figure-out-optimal-line-height/line-height.png"
+			alt="">
+
+		<p>As you can see, every line-height is distributed in different areas:</p>
+		<ul>
+			<li>A “content area”, that would be ≈1 tall.</li>
+			<li>A “leading area”, that would be the remaining space, halved in top & bottom leadings.</li>
+		</ul>
+
+		<iframe src="https://codepen.io/supersimplenet/embed/RwWyjKV" frameborder="0"></iframe>
+	</section>
+
+	<section>
+		<h2>Looking for a formula</h2>
+		<table>
+			<thead>
+				<tr>
+					<th colspan="1"></th>
+					<th colspan="1"><b>line-height: 1.5</b></th>
+					<th colspan="1"><b>line-height: 1.1</b></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>font-size: 10px</td>
+					<td>15px</td>
+					<td><strike>11px</strike></td>
+				</tr>
+				<tr>
+					<td>font-size: 50px</td>
+					<td><strike>75px</strike></td>
+					<td>55px</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>In order get an optimal line-height we will need to be as close as possible to <code>1.5</code> value
+			(<code>15px</code>), on smaller font sizes, but closer to <code>1.1</code> (<code>55px</code>) on larger ones.</p>
+		<p>So, instead of starting on a 1.5 value, why don’t we flip it over? We could start down from 1.1, adding just the
+			few pixels we need, which will make almost no visual difference in larger font sizes, but on smaller ones:</p>
+		<pre><code>line-height: calc(2px + 1.1 + 2px);</code></pre>
+
+		<table>
+			<thead>
+				<tr>
+					<th colspan="1"></th>
+					<th colspan="1"><b>line-height: 1.5</b></th>
+					<th colspan="1"><b>line-height: (2px + 1.1 + 2px) </b></th>
+					<th colspan="1"><b>line-height: 1.1</b></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>font-size: 10px</td>
+					<td>15px</td>
+					<td>15px</td>
+					<td><strike>11px</strike></td>
+				</tr>
+				<tr>
+					<td>font-size: 50px</td>
+					<td><strike>75px</strike></td>
+					<td>59px</td>
+					<td>55px</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>Unfortunately, <code>line-height: calc(2px + 1.1 + 2px)</code> is invalid CSS, since unit & unitless values can’t
+			be mixed. Could we use any relative unit that gets computed to about 1.1? </p>
+	</section>
+
+	<section>
+		<h2>The solution:</h2>
+
+		<p>The <code>ex</code> unit computes to current font x-height (the height of the lowercase letter “x”). In fact, any
+			relative unit (em, rem…) can be used, but since we’re calculating line height, it makes sense to use a height
+			unit dependent on the <code>font-family</code> in use.</p>
+
+		<iframe src="https://codepen.io/supersimplenet/embed/vYNjaem" frameborder="0"></iframe>
+	</section>
+
+	<section>
+		<h2>A quirk:</h2>
+		<p>If you apply the formula on a parent element, and the <code>font-size</code> is changed on a descendant
+			element, <code>line-height</code> would be unafected on the descendant, since it has been calculated based on
+			parent <code>font-size</code>:</p>
+
+		<pre><code>.parent {
+  font-size: 20px;
+  line-height: calc(2px + 2ex + 2px);
+  /* computed: 2px + (2 * 20px) + 2px = 44px */
+}
+
+.parent .descendant {
+  font-size: 40px;
+  /* desired:  2px + (2 * 40px) + 2px = 84px */
+  /* computed: 2px + (2 * 20px) + 2px = 44px (same as .parent) */
+}</code></pre>
+
+		<p>This can be solved by applying the formula to all descendants (for example):</p>
+		<pre><code>.parent * {
+  line-height: calc(2px + 2ex + 2px);
+}</code></pre>
+	</section>
 </body>
 
 </html>
