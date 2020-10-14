@@ -19,6 +19,10 @@
 				text-align: center;
 			}
 		}
+
+		.examples-lh>p {
+			line-height: calc(1ex / 0.32);
+		}
 	</style>
 </head>
 
@@ -34,20 +38,22 @@
 				<p style="line-height: 1;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
 					eaque
 					voluptatibus error ullam
-					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus (1).
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus
+					(line-height: 1).
 				</p>
 			</li>
 			<li>
 				<p style="line-height: 1.5;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
 					eaque voluptatibus error ullam
 					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus
-					(1.5).</p>
+					(line-height: 1.5).</p>
 			</li>
 			<li>
 				<p style="line-height: 2;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
 					eaque
 					voluptatibus error ullam
-					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus. (2)
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus.
+					(line-height: 2)
 				</p>
 			</li>
 		</ul>
@@ -160,6 +166,114 @@
   line-height: calc(2px + 2ex + 2px);
 }</code></pre>
 	</section>
+
+	<section>
+		<h2>Another perspective:</h2>
+		<p>The default line height in browsers is 1.2 (a unitless value is relative to the font size), which is the optimal
+			value for Times New Roman but not for other fonts. We must also consider that line spacing does not grow linearly
+			with the font size and that it depends on various factors like the type of the text.</p>
+		<p><a href="https://www.smashingmagazine.com/2020/07/css-techniques-legibility/">By testing some common fonts
+				for long-form reading</a> , combined with sizes from 8 to 14 points, we were able to deduce that, on paper, the
+			ratio between the x-height and the optimal line spacing is 37.6.</p>
+
+		<img
+			src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/9425201c-79e1-4d0a-bf67-639ed2062af8/line-height-css-techniques-legibility.png"
+			alt="">
+
+		<img
+			src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/eb8c811c-b04d-4f85-9b23-da34b90dae5c/x-height-css-techniques-legibility.png"
+			alt="">
+
+		<p>Compared to reading on paper, screen reading generally requires more spacing between lines. Therefore, we should
+			adjust the ratio to 32 for digital environments. In CSS, this empirical value can be translated into the following
+			rule:</p>
+
+		<pre><code>p {
+  line-height: calc(1ex / 0.32);
+}</code></pre>
+
+		<p>In the right reading contexts, this rule sets an optimal line height for both serif and sans-serif fonts, even
+			when typographical tools are not available or when a user has set a font that overwrites the one chosen by the
+			designer.</p>
+
+		<h3>Examples:</h3>
+		<ul class="examples-lh">
+			<li>
+				<p style="font-size: 10px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque
+					voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus.
+				</p>
+			</li>
+			<li>
+				<p style="font-size: 16px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus.</p>
+			</li>
+			<li>
+				<p style="font-size: 24px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque
+					voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus.
+				</p>
+			</li>
+			<li>
+				<p style="font-size: 40px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad eveniet omnis, aliquid
+					eaque
+					voluptatibus error ullam
+					aliquam sit, enim quia sint facere beatae, ex perspiciatis accusantium numquam ratione distinctio ducimus.
+				</p>
+			</li>
+		</ul>
+
+		<h3>Defining the scale</h3>
+		<p>Now that we have adjusted the font size and used the ex unit to calculate the line height, we need to define the
+			typographical scale in order to correctly set the spacing between paragraphs and to provide a good rhythm to the
+			reading. As said before, line spacing does not grow linearly but varies according to the type of text. For titles
+			with a large font size, for example, we should consider a higher ratio for the line height.</p>
+
+		<pre><code>h1 {
+  font-size: 2.5rem;
+  line-height: calc(1ex / 0.42);
+  margin: calc(1ex / 0.42) 0; /* ? +?
+}
+
+h2 {
+  font-size: 2rem;
+  line-height: calc(1ex / 0.42);
+  ...
+}
+
+h3 {
+  font-size: 1.75rem;
+  line-height: calc(1ex / 0.38);
+  ...
+}
+
+h4 {
+  font-size: 1.5rem;
+  line-height: calc(1ex / 0.37);
+  ...
+}
+
+p {
+  font-size: 1rem;
+  line-height: calc(1ex / 0.32);
+  ...
+}</code></pre>
+
+		<blockquote>In the right reading contexts, this rule sets an optimal line height for both serif and sans-serif
+			fonts, even when typographical tools are not available or when a user has set a font that overwrites the one
+			chosen by the designer.</blockquote>
+	</section>
+
+	<script>
+		document.querySelectorAll('.examples-lh p').forEach(p => {
+			const span = document.createElement('span');
+			span.innerHTML = ` <b><i>(font-size: ${getComputedStyle(p).fontSize}/line-height: ${getComputedStyle(p).lineHeight})<i><b>`;
+			p.appendChild(span)
+		})
+	</script>
 </body>
 
 </html>
