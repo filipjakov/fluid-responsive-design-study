@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fluid responsive design | Spacing - 1D</title>
+	<link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+
+<body>
+	<h1>Spacing</h1>
+	<p>Design systems conceive elements and components in isolation. At the time of conception, it is not settled
+		whether there will be surrounding content or what the nature of that content will be. One element or component is
+		likely to appear in different contexts, and the requirement for spacing will differ.</p>
+
+	<p>We are in the habit of styling elements, or classes of elements, directly: we make style declarations belong to
+		elements. Typically, this does not produce any issues, but <code>margin</code> is really a property of the
+		relationship between two proximate elements. The following code is therefore problematic:</p>
+
+	<pre><code>p {
+  margin-bottom: 1.5rem;
+}</code></pre>
+
+	<img src="https://every-layout.dev/images/illustrations/stack_padding_issue.svg" alt="">
+
+	<p>A <code>:last-child</code> paragraph produces a redundant margin. Inside a padded parent element, this
+		redundant margin combines with the parent’s padding to produce double the intended space.</p>
+
+	<section>
+		<h2>1-D spacing: the <b>Stack</b> layout primitive</h2>
+		<p>The trick is to style the context, not the individual element(s). The Stack layout primitive injects margin
+			between elements via their common parent.</p>
+
+		<section>
+			<h3>The lobotomized owl (<code>* + *</code>)</h3>
+			<pre><code>.stack > * + * {
+  margin-top: 1.5rem;
+}</code></pre>
+
+			<p>Using the adjacent sibling combinator (<code>+</code>), <code>margin-top</code> is only applied where the
+				element is preceded by another element: no “left over” margin. The universal (or wildcard) selector
+				(<code>*</code>) ensures any and all elements are affected. The key <code> * + *</code> construct is known as
+				the <b>owl</b>.</p>
+			<img src="https://alistapart.com/wp-content/uploads/2014/10/owl_1.png?w=960" alt="">
+
+			<h3>The nested lobotomized owl (recursion)</h3>
+			<pre><code>.stack * + * {
+  margin-top: 1.5rem;
+}</code></pre>
+
+			<p>This can be useful where you want to affect elements at any nesting level, while retaining space
+				regularity.</p>
+			<img src="https://every-layout.dev/images/illustrations/stack_nesting.svg" alt="">
+		</section>
+	</section>
+
+	<section>
+		<h3>Alternative: The unwanted child</h3>
+		<pre><code>.stack > *:not(:last-child) {
+  margin-bottom: 1.5rem;
+}</code></pre>
+		<div style="display: flex; justify-content: space-between;">
+			<ul style="flex-basis: 50%;">
+				Pros:
+				<li>Easier to read</li>
+			</ul>
+			<ul>
+				Cons:
+				<li>Higher specificity; harder to generate exceptions</li>
+			</ul>
+		</div>
+
+		<section>
+			<h3>Exceptions</h3>
+			<p>CSS works best as an exception-based language. You write far-reaching rules, then use the cascade to override
+				these rules in special cases:</p>
+			<pre><code>.stack {
+  --space: 1.5rem;
+
+  & > * + * {
+    margin-top: var(--space);
+  }
+}
+/* or inline the css variable on the element*/
+.stack-exception {
+  --space: 3rem;
+}
+/* or even (because of small specificity) */
+.stack > *:nth-child(2) {
+  --space: 4rem;
+}
+</code></pre>
+		</section>
+
+		<section>
+			<h3>Splitting the stack</h3>
+			<p>By making the Stack a Flexbox context, we can give it one final power: the ability to add an <b>auto margin</b>
+				to a chosen element. This way, we can group elements to the top and bottom of the vertical space. Useful for
+				card-like components.</p>
+			<pre><code>.stack {
+  --space: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  & > * + * {
+    margin-top: var(--space);
+  }
+}
+
+.stack > :nth-child(2) {
+  margin-bottom: auto;
+}</code></pre>
+		</section>
+
+		<section>
+			<h3>Use cases</h3>
+			<p>Anywhere elements are stacked one atop
+				another, it is likely a Stack should be in effect. Only adjacent elements (such as grid cells) should not be
+				subject to a Stack. The grid cells are likely to be Stacks, however, and the grid itself a member of a Stack.
+			</p>
+			<img src="https://every-layout.dev/images/illustrations/stack_grid.svg" alt="">
+
+			<iframe height="400px" style="margin-top: 2rem;" src="https://codepen.io/filipjakov/embed/NWrrbMQ"
+				frameborder="0"></iframe>
+		</section>
+
+		<section>
+			<h3>Extra: Line height and modular scale</h3>
+			<p>In the previous example, we used a margin-top value of <code>1.5rem</code>. We’re in the habit of using this
+				value because it reflects our (usually preferred) body text line-height of 1.5.</p>
+			<img src="https://every-layout.dev/images/illustrations/stack_multiple_exponent.svg" alt="">
+			<p>The vertical spacing of your design should be based on your standard line-height because text dominates most
+				pages’ layout, making one line of text a natural denominator. It would also make sense to utilize the previously
+				defined formula for <code>line-height</code> to define our margins:</p>
+
+			<pre><code>.stack {
+  --space: calc(1ex / 0.32);
+  ...
+}</code></pre>
+		</section>
+	</section>
+
+	<section>
+		<h2>2-D spacing: the CSS <code>gap</code> property</h2>
+	</section>
+
+</body>
+
+</html>
