@@ -46,9 +46,6 @@
 <body>
 	<main>
 		<h1>Fluid font size</h1>
-		<p>The core trickery comes from viewport units. You can literally set type in viewport units (e.g. <code>font-size:
-			4vw</code>), but the fluctuations in size are so extreme that it’s usually undesirable.</p>
-
 		<h2>How we currently do it:</h2>
 		<pre><code>:root {
   font-size: 100%;
@@ -69,6 +66,11 @@ h1 {
     font-size: 4rem; // 56px
   }
 }</code></pre>
+
+		<blockquote>
+			The core trickery comes from viewport units. We can literally set type in viewport units (e.g. <code>font-size:
+	4vw</code>), but the fluctuations in size are so extreme that it’s usually undesirable.
+		</blockquote>
 
 		<section>
 			<h2>1. Rise until lock</h2>
@@ -119,7 +121,6 @@ h1 {
 				<li>(not really a problem) when going between the lower boundary, the <code>font-size</code> gets smaller than
 					the minumum</li>
 				<li>a bit verbose and hard to figure out what's going on (learning curve)</li>
-				<li>we practicly moved the media query in the lock</li>
 				<li>we still have a media query</li>
 			</ul>
 		</section>
@@ -141,10 +142,10 @@ h1 {
 			<h2>4. The holy <code>clamp()</code> 👼 👼 👼</h2>
 			<h3>Overture:</h3>
 			<ul>
-				<li>Pick your minimum and maximum font sizes, and your minimum and maximum viewport widths. In our example,
+				<li>We pick a minimum and maximum font size, and a minimum and maximum viewport width. In our example,
 					that’s <code>1rem</code> and <code>2rem</code> for the font sizes, and <code>320px</code> and
 					<code>1200px</code> for the widths.</li>
-				<li>Convert the widths to <code>rem</code>. Since <code>1rem</code> on most browsers is <code>16px</code> by
+				<li>We convert the widths to <code>rem</code>s. Since <code>1rem</code> on most browsers is <code>16px</code> by
 					default, that’s what we’re going to use. So, now the minimum and maximum viewport widths
 					will be <code>20rem</code> and <code>75rem</code>, respectively.
 				</li>
@@ -191,13 +192,11 @@ yAxisIntersection = -minWidth * slope + minFontSize</code></pre>
 				<li>Please be careful with maximum
 					text size. If you prevent the text from scaling up 200%, then that is a WCAG
 					SC 1.4.4 failure at Level AA. Viewport units have their own call-out as a major risk in WCAG.</li>
-				<li>Your text should never get smaller when the user zooms, and it certainly should not be smaller at 300% zoom.
-					<video controls style="max-width: 90%; display: block; margin: 1rem auto;">
-						<source src="https://adrianroselli.com/wp-content/uploads/2019/12/responsive-type-example_02.mp4">
-						</source>
-					</video>
+				<li><a href="https://adrianroselli.com/wp-content/uploads/2019/12/responsive-type-example_02.mp4">Your text
+						should never get smaller when the user zooms, and it certainly should not be smaller at 300% zoom.</a>
+					<iframe height="400px" src="https://codepen.io/pprg1996/embed/yLONLPv" frameborder="0"></iframe>
 				</li>
-				<li>Test, test, test</li>
+				<li>Test your fluid solution</li>
 			</ul>
 		</section>
 	</main>

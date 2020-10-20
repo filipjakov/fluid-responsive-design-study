@@ -173,7 +173,7 @@
 			value for Times New Roman but not for other fonts. We must also consider that line spacing does not grow linearly
 			with the font size and that it depends on various factors like the type of the text.</p>
 		<p><a href="https://www.smashingmagazine.com/2020/07/css-techniques-legibility/">By testing some common fonts
-				for long-form reading</a> , combined with sizes from 8 to 14 points, we were able to deduce that, on paper, the
+				for long-form reading</a>, combined with sizes from 8 to 14 points, we can deduce that, on paper, the
 			ratio between the x-height and the optimal line spacing is 37.6.</p>
 
 		<img
@@ -191,10 +191,6 @@
 		<pre><code>p {
   line-height: calc(1ex / 0.32);
 }</code></pre>
-
-		<p>In the right reading contexts, this rule sets an optimal line height for both serif and sans-serif fonts, even
-			when typographical tools are not available or when a user has set a font that overwrites the one chosen by the
-			designer.</p>
 
 		<h3>Examples:</h3>
 		<ul class="examples-lh">
@@ -227,9 +223,7 @@
 		</ul>
 
 		<h3>Defining the scale</h3>
-		<p>Now that we have adjusted the font size and used the ex unit to calculate the line height, we need to define the
-			typographical scale in order to correctly set the spacing between paragraphs and to provide a good rhythm to the
-			reading. As said before, line spacing does not grow linearly but varies according to the type of text. For titles
+		<p>As mentioned before, line spacing does not grow linearly but varies according to the type of text. For titles
 			with a large font size, for example, we should consider a higher ratio for the line height.</p>
 
 		<pre><code>h1 {
