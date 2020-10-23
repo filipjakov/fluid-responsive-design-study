@@ -30,7 +30,9 @@
 		"parcel": "^1.12.4",
 		"postcss-modules": "^3.2.2",
 		"postcss-normalize": "^9.0.0",
-		"postcss-preset-env": "^6.7.0",
+		"postcss-preset-env": "^6.7.0"
+	},
+	"devDependencies": {
 		"prettier": "^2.1.1"
 	}
 }
