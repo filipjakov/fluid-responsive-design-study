@@ -4,7 +4,8 @@
 	"description": "A case-study of the possibilities of modern CSS",
 	"main": "index.js",
 	"scripts": {
-		"main": "parcel src/index.html --port 3000"
+		"dev": "parcel src/index.html --port 3000",
+		"build": "parcel build src/index.html"
 	},
 	"repository": {
 		"type": "git",
