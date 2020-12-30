@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fluid responsive design | Layout - RAM</title>
+		<link rel="stylesheet" type="text/css" href="../styles.css" />
+	</head>
+	<body>
+		<h1>Responsive multi-column grid system (RAM)</h1>
+		<img style="mix-blend-mode: darken" src="https://vycke.dev/img/css-grid-tiles.png" alt="" />
+
+		<p>
+			Who does not know the responsive multi-column layout? A layout that changes the number of columns with the screen
+			size as illustrated above. This was often solved using something like the Bootstrap grid-system, or an own
+			implementation. But, this restricts you to a fixed number of columns for each screen size. If you would have five
+			columns, that would not be possible in a twelve column system. Besides, you have to determine for each element the
+			column span on different screen sizes.
+		</p>
+
+		<p>
+			If you have many grids, your CSS or HTML does not scale well. Luckily we have CSS grids these days. With CSS grids
+			we do not define the column span for each element. Instead, we let the browser determine the number of columns on
+			the screen. You can achieve the illustrated scalable layout with the code snippet below:
+		</p>
+
+		<pre><code>.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  width: 100%;
+}</code></pre>
+
+		<p>
+			This is the so called <b>RAM</b> pattern: repeat, auto, minmax. With <code>repeat</code> we say to the browser
+			that it needs to repeat its argument. For example, <code> repeat(3, 1fr)</code> would create a layout of three
+			equally sized columns that fill the entire screen. But, our elements almost always have a minimum width. With the
+			<code>1fr</code> we can break them. With <code>minmax(20rem, 1fr)</code>, each column has a minimum width of
+			<code>20rem</code>, but scales on larger screens.
+		</p>
+
+		<img src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.png" alt="" />
+
+		<p>
+			The magic starts when replacing the fixed number with <code>auto-fit</code> or <code>auto-fill</code>. In short,
+			<code>auto-fit</code> will expand the grid items to fill the available space. While <code>auto-fill</code> won’t
+			expand the items. Instead, <code>auto-fill</code> will keep the available space reserved without altering the grid
+			items width.
+		</p>
+
+		<video width="100%" height="500px" controls>
+			<source src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.mp4" type="video/mp4" />
+		</video>
+
+		<p>
+			With both options, we let the browser determine the amount of available columns on the screen. When using
+			<code>auto-fill</code> and <code>minmax(20rem, 1fr)</code> on a screen of <code>90rem</code> the browser creates
+			four columns. The <code>auto-fit</code> option creates a maximum of four columns in this example. When there are
+			only two elements to put in the grid <code>auto-fit</code> reduces the number of columns to two.
+		</p>
+
+		<video width="100%" height="500px" controls>
+			<source src="https://ishadeed.com/assets/grid-minmax/auto-fit.mp4" type="video/mp4" />
+		</video>
+
+		<video width="100%" height="500px" controls>
+			<source src="https://ishadeed.com/assets/grid-minmax/auto-fill.mp4" type="video/mp4" />
+		</video>
+
+		<p>Check the demo:</p>
+		<iframe height="400px" src="https://codepen.io/filipjakov/embed/QWKQpQo" frameborder="0"></iframe>
+	</body>
+</html>

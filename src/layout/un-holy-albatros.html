@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fluid responsive design | Layout - The (Un)Holy Albatros</title>
+		<link rel="stylesheet" type="text/css" href="../styles.css" />
+	</head>
+	<body>
+		<h1>The (Un)Holy Albatross</h1>
+
+		<blockquote>
+			Holy Albatross is a technique to have a row of elements break into a column of elements at a specific width. A
+			specified parent width, not a screen width like a media query would have. So, like a container query.
+		</blockquote>
+
+		<section>
+			<h2>The Problem</h2>
+			<p>
+				With Flexbox you can combine wrapping (<code>flex-wrap: wrap</code>) and growing (<code>flex-grow: 1</code>) to
+				ensure all flex items fall into their rightful place across different viewport widths. Flexbox can create an
+				effortlessly responsive layout with no collisions or unseemly gaps in sight.
+			</p>
+			<p>The trouble is, sometimes you want your items to wrap in a very particular way. For instance:</p>
+			<img src="https://every-layout.dev/images/illustrations/switcher_bypass.svg" alt="" />
+
+			<p>
+				Well, how about <code>@media</code> queries? No can do: the component, defined outside of context, could be
+				instantiated within a container/parent element of any width. Context is variable, but all
+				<code>@media</code> queries can do is adjust things according to the constant that is the viewport.
+			</p>
+
+			<img src="https://heydonworks.com/images/2019/01/flex2.png" alt="" />
+
+			<p>
+				JavaScript all the things? A combination of
+				<a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a> and
+				<a href="../basics/custom-properties/index.html">CSS custom properties</a> could do the trick... But there is
+				another way.
+			</p>
+		</section>
+
+		<section>
+			<h2>The Holy Albatross 🙏🙏🙏</h2>
+			<p>
+				The idea is to switch a Flexbox context between a horizontal and a vertical layout at a given, container-based
+				breakpoint. That is, if the breakpoint is <code>30rem</code>, the layout will switch to a vertical configuration
+				when the parent element is less than <code>30rem</code> wide.
+			</p>
+
+			<p>
+				In order to achieve this switch, first a basic horizontal layout is instated, with wrapping and flex-grow
+				enabled:
+			</p>
+
+			<pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container > * {
+  flex-grow: 1;
+}</code></pre>
+
+			<p>
+				The <code>flex-basis</code> value enters the (current) width of the container, expressed as <code>100%</code>,
+				into a calculation with the designated (<code>30rem</code>) breakpoint:
+			</p>
+			<pre><code>30rem - 100%</code></pre>
+			<p>
+				Depending on the parsed value of <code>100%</code>, this will return either a positive or negative value:
+				positive if the container is narrower than 30rem, or negative if it is wider. This number is then multiplied by
+				999 to produce either a very large positive number or a very large negative number:
+			</p>
+			<pre><code>(30rem - 100%) * 999</code></pre>
+			<p>Here is the code with the <code>flex-basis</code> declaration:</p>
+			<pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container > * {
+  flex-grow: 1;
+  flex-basis: calc((30rem - 100%) * 999);
+}</code></pre>
+
+			<p>
+				A negative <code>flex-basis</code> value is invalid, and dropped. Thanks to CSS's resilent error handling this
+				means just the <code>flex-basis</code> line is ignored, and the rest of the CSS is still applied. The erroneous
+				negative <code>flex-basis</code> value is corrected to <code>0</code> and, because <code>flex-grow</code> is
+				present, each element grows to take up an equal proportion of horizontal space.
+			</p>
+
+			<img src="https://every-layout.dev/images/illustrations/switcher_flex-basis_calc.svg" alt="" />
+
+			<p>
+				If, on the other hand, the calculated <code>flex-basis</code> value is a large positive number, each element
+				'maxes out' to take up a whole row. This results in the vertical configuration. Intermediary configurations are
+				successfully bypassed.
+			</p>
+
+			<h3>Gutters</h3>
+			<p>
+				To support margins ('<i>gutters</i>'; '<i>gaps</i>') between the subject elements, the
+				<code>flex-basis</code> calculation needs to be adapted to compensate for the increased width produced by
+				stretching the parent element. That is, by applying negative margins on all sides, the parent becomes wider than
+				its container and their 100% values no longer match.
+			</p>
+			<pre><code>.container {
+  --space: 1rem;
+  --threshold: 30rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  /* Multiply by -1 to make negative */
+  margin: calc(var(--space) / 2 * -1);
+}
+
+.container > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--threshold) - (100% - var(--space))) * 999);
+  /* Half the value to each element, combining to make the whole */
+  margin: calc(var(--space) / 2);
+}
+			</code></pre>
+
+			<p>
+				(This will become redundant when the <code>gap</code> property is more widely supported. Think grid-gap but for
+				Grid, Flexbox, and other contexts.)
+			</p>
+
+			<h3>Managing proportions</h3>
+			<p>
+				There is no reason why one or more of the elements, when in a horizontal configuration, cannot be alloted more
+				or less of the available space. By giving the second element (<code>:nth-child(2)</code>)
+				<code>flex-grow: 2</code> is will become twice as wide as its siblings (and the siblings will shrink to
+				compensate).
+			</p>
+
+			<pre><code>.container > *:nth-child(2) {
+  flex-grow: 2;
+}</code></pre>
+
+			<img src="https://every-layout.dev/images/illustrations/switcher_flex_2.svg" alt="" />
+
+			<p>Check the following example which summarizes the previous solutions:</p>
+			<iframe height="350px" src="https://codepen.io/heydon/embed/pqGgbR" frameborder="0"></iframe>
+
+			<h3>Quantity threshold</h3>
+			<p>In the horizontal configuration, the amount of space alloted each element is determined by two things:</p>
+			<ul>
+				<li>The total space available (the width of the container)</li>
+				<li>The number of sibling elements</li>
+			</ul>
+
+			<p>
+				So far, the switch happend according to the available space. But we can add as many elements as we like, and
+				they will lay out together horizontally above the breakpoint (or threshold). The more elements we add, the less
+				space each gets alloted, and things can easily start to get squashed up. Consider the following code:
+			</p>
+
+			<pre><code>.container > *:nth-last-child(n+5),
+.container > *:nth-last-child(n+5) ~ * {
+  flex-basis: 100%;
+}</code></pre>
+
+			<p>
+				Here, we are applying a <code>flex-basis</code> of <code>100%</code> to each element, only where there are five
+				or more elements in total. The <code>nth-last-child(n+5)</code> selector targets any elements that are more than
+				4 from the end of the set. Then, the general sibling combinator (<code>~</code>) applies the same rule to the
+				rest of the elements (it matches anything after <code>:nth-last-child(n+5)</code>). If there are fewer that 5
+				items, no <code>:nth-last-child(n+5)</code> elements and the style is not applied.
+			</p>
+
+			<img src="https://every-layout.dev/images/illustrations/switcher_quantities.svg" alt="" />
+			<p>Check the following example:</p>
+			<iframe height="350px" src="https://codepen.io/heydon/embed/RvZQXR" frameborder="0"></iframe>
+		</section>
+
+		<section>
+			<h2>The UnHoly Albatros 🚫🙏</h2>
+
+			<p>
+				It is a very clever way to responsively stack 3+ columns into rows based on container size in a single step,
+				using the following property: <code>flex-basis:calc((breakpoint - 100%) * 999); flex-grow:1</code>
+			</p>
+
+			<p>
+				This formula allows the column to switch between negative and positive <code>flex-basis</code> (at a minimum
+				<code>999px</code> wide due to <code>1px * 999</code>), which combined with default
+				<code>flex-shrink</code> value of <code>1</code> allows the column to expand to full width as soon as
+				<code>100%</code> container width falls below the breakpoint. However, because it takes over
+				<code>flex-basis</code> and <code>flex-grow</code>, this technique makes it hard to set the
+				<code>width</code> of columns.
+			</p>
+
+			<h3>Harnessing the black magic of <code>clamp</code></h3>
+
+			<p>
+				To solve the previous problems, the formula UnHoly Albatross uses <code>min-width</code>, combined with
+				<code>clamp</code>:
+			</p>
+
+			<pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container > * {
+  min-width: clamp(0px, (30rem - 100%) * 999, 100%);
+}</code></pre>
+
+			<p>
+				By moving container query to <code>min-width</code>, it frees up <code>flex-basis</code> and
+				<code>flex-grow</code> so the width can be set freely.
+			</p>
+
+			<h3>Bonus: Reversing order of stacked columns</h3>
+
+			<p>
+				A common use case is to raise the right hand column to the top when stacking columns vertically, but changing
+				the order doesn't seem to be possible here.
+			</p>
+
+			<p>
+				The only value that acts as the trigger is the width value such as <code>(40rem - 100%) * 999</code>, we can't
+				alter the <code>order</code> property with it because order only wants integer, and our trigger value must
+				contain a width.
+			</p>
+
+			<p>
+				However, <code>flex-direction:row-reverse</code> has a curious property - the x direction is reversed, but the
+				row still wraps downwards, this means when columns are 100% wide it behaves like
+				<code>flex-direction:column</code>.
+			</p>
+
+			<pre><code>.v-reverse {flex-direction:row-reverse}
+.v-reverse > *:nth-child(1) {order:-1}
+.v-reverse > *:nth-child(2) {order:-2}
+.v-reverse > *:nth-child(3) {order:-3}
+.v-reverse > *:nth-child(4) {order:-4}</code></pre>
+
+			<p>Check the demo:</p>
+			<iframe height="350px" src="https://codepen.io/Miragecraft/embed/VweEoOG" frameborder="0"></iframe>
+		</section>
+
+		<section>
+			<h2>Use cases:</h2>
+
+			<p>Especially useful where each element should be considered equal, or part of a continuum.</p>
+			<ul>
+				<li>
+					Card components advertising products should share the same width no matter the orientation, otherwise one or
+					more cards could be perceived as highlighted or featured in some way.
+				</li>
+				<li>
+					A set of numbered steps is also easier on cognition if those steps are laid out along one horizontal or
+					vertical line.
+				</li>
+				<li>
+					Big card layouts with an image and content next to each other, spanning a big horizontal space. Often they
+					have a fixed ratio between them (e.g. 50%-50%). When reducing the screen size, you don't want these two next,
+					but below each other.
+				</li>
+				<li>Sidebars? <img src="https://every-layout.dev/images/illustrations/sidebar_quantum.svg" alt="" /></li>
+				<li>...</li>
+			</ul>
+		</section>
+	</body>
+</html>

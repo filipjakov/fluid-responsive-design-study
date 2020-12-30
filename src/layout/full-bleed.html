@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fluid responsive design | Layout - Full bleed</title>
+		<link rel="stylesheet" type="text/css" href="../styles.css" />
+	</head>
+	<body>
+		<h1>Full bleed</h1>
+
+		<section>
+			<h2>The problem</h2>
+
+			<p>
+				How to create a single fixed-width column in the center of the page? You've seen this layout everywhere: online
+				magazines, documentation, news sites, and blogs. You're looking at it right now, on this site!
+			</p>
+
+			<p>
+				There's a complicating factor, however—not all content should be constrained. We should allow images, videos,
+				and/or custom widgets to break free and fill the available width:
+			</p>
+
+			<iframe height="350px" src="https://codepen.io/filipjakov/embed/abmqpYx" frameborder="0"></iframe>
+
+			<p>
+				For the next examples we'll use the following markup (note, we want the <code>&lt;img /></code> to span/bleed):
+			</p>
+			<pre><code>&lt;body>
+  &lt;header>...&lt;/header>
+  &lt;main>
+    &lt;h1>...&lt;/h1>
+    &lt;p>...&lt;/p>
+    &lt;img />
+    &lt;p>...&lt;/p>
+  &lt;main>
+  &lt;footer>...&lt;/footer>
+&lt;/body></code></pre>
+		</section>
+
+		<section>
+			<h2>The principle of least power</h2>
+
+			<pre><code>main > * {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 65ch;
+}
+
+main > img {
+  max-width: 100ch;
+}</code></pre>
+
+			Pros
+			<ul>
+				<li>Lightweight</li>
+				<li>Easily understandable</li>
+				<li>Good browser support</li>
+			</ul>
+
+			Cons
+			<ul>
+				<li>Content padding on small screen sizes (solvable with <code>@media</code>)</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>The grid</h2>
+			<img
+				style="width: min(100%, 300px); margin-bottom: 2ch"
+				src="https://www.joshwcomeau.com/images/full-bleed/grid-columns.png"
+				alt=""
+			/>
+
+			<p>
+				The center column is the actual content area, while the two outer columns act as padding, but also create the
+				effect of <code>margin: 0 auto</code>.
+			</p>
+
+			<pre><code>main {
+  display: grid;
+
+  /* Padding the whole content */
+  grid-template-columns:
+    1fr
+    minmax(calc(100% - 4rem), 65ch)
+    1fr;
+  grid-column-gap: 2rem;
+
+  /* OR not padding bleed elements */
+  grid-template-columns:
+    minmax(2rem, 1fr)
+    minmax(auto, 65ch)
+    minmax(2rem, 1fr);
+
+  & > * {
+    grid-column: 2;
+  }
+
+  & > img {
+    grid-column: 1 / -1; /* Whole screen*/
+    justify-self: center;
+    width: 100%;
+    max-width: 100ch;
+  }
+}</code></pre>
+
+			<img src="https://vycke.dev/img/css-grid-article.png" alt="" />
+
+			<p>
+				The paddings on the side should differ on various screen sizes. On smaller screens, we want to limit the wasted
+				space, while on bigger screens more padding can improve the visual quality. A solution could be combining
+				<code>vmin/vmax</code> or <code>vw</code> units who depend on the size of the viewport:
+			</p>
+
+			<pre><code>main {
+  ...
+  grid-template-columns:
+    minmax(min(2rem, 2vw), 1fr)
+    minmax(auto, 65ch)
+    minmax(min(2rem, 2vw), 1fr);
+  ...
+}</code></pre>
+
+			<p>Now we have a dynamic and maintainable layout!</p>
+		</section>
+	</body>
+</html>

@@ -1,76 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fluid responsive design | Home</title>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+	</head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Fluid responsive design | Home</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+	<body>
+		<main>
+			<h1>Motivation</h1>
+			<section>
+				<h2>Design types</h2>
+				<ul>
+					<li>
+						<b>fixed page layout</b> - designed for a specific predetermined width and they do not change, no matter the
+						display aspect ratio or the screen size that the viewer has
+					</li>
+					<li>
+						<b>adaptive/responsive design</b> - process of creating a website with specific devices and screen sizes in
+						mind.
+					</li>
+					<li>
+						<b>fluid design</b> - has the width specified as a percentage; it is based on relative units and
+						proportional widths, making pages scalable and adjustable to various screen sizes.
+					</li>
+				</ul>
+			</section>
 
-<body>
-	<main>
-		<h1>Motivation</h1>
-		<section>
-			<h2>Design types</h2>
-			<ul>
-				<li><b>fixed page layout</b> - designed for a specific predetermined
-					width and they do not change, no matter the display aspect ratio or the screen size that the viewer has</li>
-				<li><b>adaptive/responsive design</b> - process of creating a website with
-					specific devices and screen sizes in mind.</li>
-				<li><b>fluid design</b> - has the width specified as a percentage; it is based on
-					relative units and proportional widths, making pages scalable and adjustable to various screen sizes.</li>
-			</ul>
-		</section>
+			<section>
+				<h2>The future</h2>
+				<img src="https://ishadeed.com/assets/comparison-css/css-comparison-designers-1.jpg" alt="" />
 
-		<section>
-			<h2>The future</h2>
-			<img src="https://ishadeed.com/assets/comparison-css/css-comparison-designers-1.jpg" alt="">
+				<p>
+					In the first part there are clear spots for the design sizes or viewports. However, the second one is gradual
+					which indicates the use of a minimum and maximum value for a design property.
+				</p>
 
-			<p>In the first part there are clear spots for the design sizes or viewports. However, the second one is gradual
-				which indicates the use of a minimum and maximum value for a design property.</p>
+				<p>
+					Thinking about fluid design means thinking in functions: components become black boxes whose size depends on
+					various variables like:
+				</p>
+				<ul>
+					<li>size of the content (text, images, icons...)</li>
+					<li>size of the parent/size of the children</li>
+					<li>size of the screen</li>
+					<li>...</li>
+				</ul>
+			</section>
 
-			<p>Thinking about fluid design means thinking in functions: components become black boxes whose size depends on
-				various variables like:</p>
-			<ul>
-				<li>size of the content (text, images, icons...)</li>
-				<li>size of the parent/size of the children</li>
-				<li>size of the screen</li>
-				<li>...</li>
-			</ul>
-		</section>
+			<section>
+				<h2>Content:</h2>
+				1. Basics:
+				<ul>
+					<li>
+						<a href="./basics/units/index.html">CSS (length) Units</a>
+					</li>
+					<li>
+						<a href="./basics/css-functions/index.html">CSS functions</a>
+					</li>
+					<li>
+						<a href="./basics/custom-properties/index.html">Custom properties</a>
+					</li>
+				</ul>
 
-		<section>
-			<h2>Content:</h2>
-			1. Basics
-			<ul>
-				<li>
-					<a href="./basics/units/index.html">CSS (length) Units</a>
-				</li>
-				<li>
-					<a href="./basics/css-functions/index.html">CSS functions</a>
-				</li>
-				<li>
-					<a href="./basics/custom-properties/index.html">Custom properties</a>
-				</li>
-			</ul>
+				2. Typography:
+				<ul>
+					<li>
+						<a href="./typography/font-size.html">Fluid <code>font-size</code></a>
+					</li>
+					<li>
+						<a href="./typography/line-height.html">Fluid <code>line-height</code></a>
+					</li>
+				</ul>
 
-			2. Typography
-			<ul>
-				<li><a href="./typography/font-size.html">Fluid <code>font-size</code></a></li>
-				<li><a href="./typography/line-height.html">Fluid <code>line-height</code></a></li>
-			</ul>
+				<a style="display: block" href="./spacings/index.html">3. Spacings</a>
 
-			3. Spacings
-			<ul>
-				<li><a href="./spacings/index.html">Spacing</a></li>
-			</ul>
-			4. Components and Layouts
-			<ul></ul>
-			5. Putting it all together
-			<ul></ul>
-		</section>
-	</main>
-</body>
-
+				<a style="display: block" href="./layout/index.html">4. Component/Layout patterns</a>
+			</section>
+		</main>
+	</body>
 </html>
