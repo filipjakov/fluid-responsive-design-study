@@ -10,63 +10,127 @@
 		<h1>Responsive multi-column grid system (RAM)</h1>
 		<img style="mix-blend-mode: darken" src="https://vycke.dev/img/css-grid-tiles.png" alt="" />
 
-		<p>
-			Who does not know the responsive multi-column layout? A layout that changes the number of columns with the screen
-			size as illustrated above. This was often solved using something like the Bootstrap grid-system, or an own
-			implementation. But, this restricts you to a fixed number of columns for each screen size. If you would have five
-			columns, that would not be possible in a twelve column system. Besides, you have to determine for each element the
-			column span on different screen sizes.
-		</p>
+		<section>
+			<p>
+				A layout that changes the number of columns with the screen size as illustrated above. This was often solved
+				using something like the Bootstrap grid-system, or an own implementation. But, this restricts you to a fixed
+				number of columns for each screen size.
+			</p>
 
-		<p>
-			If you have many grids, your CSS or HTML does not scale well. Luckily we have CSS grids these days. With CSS grids
-			we do not define the column span for each element. Instead, we let the browser determine the number of columns on
-			the screen. You can achieve the illustrated scalable layout with the code snippet below:
-		</p>
+			<p>
+				With CSS grids we do not define the column span for each element. Instead, we let the browser determine the
+				number of columns on the screen. You can achieve the illustrated scalable layout with the code snippet below:
+			</p>
 
-		<pre><code>.grid {
+			<pre><code>.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  width: 100%;
 }</code></pre>
 
-		<p>
-			This is the so called <b>RAM</b> pattern: repeat, auto, minmax. With <code>repeat</code> we say to the browser
-			that it needs to repeat its argument. For example, <code> repeat(3, 1fr)</code> would create a layout of three
-			equally sized columns that fill the entire screen. But, our elements almost always have a minimum width. With the
-			<code>1fr</code> we can break them. With <code>minmax(20rem, 1fr)</code>, each column has a minimum width of
-			<code>20rem</code>, but scales on larger screens.
-		</p>
+			<p>
+				This is the so called <b>RAM</b> pattern: <b>repeat</b>, <b>auto</b>, <b>minmax</b>. With <code>repeat</code> we
+				say to the browser that it needs to repeat its argument. For example, <code> repeat(3, 1fr)</code> would create
+				a layout of three equally sized columns that fill the entire screen. But, our elements almost always have a
+				minimum width. With the <code>1fr</code> we can break them. With <code>minmax(20rem, 1fr)</code>, each column
+				has a minimum width of <code>20rem</code>, but scales on larger screens.
+			</p>
 
-		<img src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.png" alt="" />
+			<img src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.png" alt="" />
 
-		<p>
-			The magic starts when replacing the fixed number with <code>auto-fit</code> or <code>auto-fill</code>. In short,
-			<code>auto-fit</code> will expand the grid items to fill the available space. While <code>auto-fill</code> won’t
-			expand the items. Instead, <code>auto-fill</code> will keep the available space reserved without altering the grid
-			items width.
-		</p>
+			<p>
+				The magic starts when replacing the fixed number with <code>auto-fit</code> or <code>auto-fill</code>. In short,
+				<code>auto-fit</code> will expand the grid items to fill the available space. While <code>auto-fill</code> won’t
+				expand the items. Instead, <code>auto-fill</code> will keep the available space reserved without altering the
+				grid items width.
+			</p>
 
-		<video width="100%" height="500px" controls>
-			<source src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.mp4" type="video/mp4" />
-		</video>
+			<video width="100%" height="500px" controls>
+				<source src="https://ishadeed.com/assets/grid-minmax/auto-fit-fill.mp4" type="video/mp4" />
+			</video>
 
-		<p>
-			With both options, we let the browser determine the amount of available columns on the screen. When using
-			<code>auto-fill</code> and <code>minmax(20rem, 1fr)</code> on a screen of <code>90rem</code> the browser creates
-			four columns. The <code>auto-fit</code> option creates a maximum of four columns in this example. When there are
-			only two elements to put in the grid <code>auto-fit</code> reduces the number of columns to two.
-		</p>
+			<p>
+				With both options, we let the browser determine the amount of available columns on the screen. When using
+				<code>auto-fill</code> and <code>minmax(20rem, 1fr)</code> on a screen of <code>90rem</code> the browser creates
+				four columns. The <code>auto-fit</code> option creates a maximum of four columns in this example. When there are
+				only two elements to put in the grid <code>auto-fit</code> reduces the number of columns to two.
+			</p>
 
-		<video width="100%" height="500px" controls>
-			<source src="https://ishadeed.com/assets/grid-minmax/auto-fit.mp4" type="video/mp4" />
-		</video>
+			<video width="100%" height="500px" controls>
+				<source src="https://ishadeed.com/assets/grid-minmax/auto-fit.mp4" type="video/mp4" />
+			</video>
 
-		<video width="100%" height="500px" controls>
-			<source src="https://ishadeed.com/assets/grid-minmax/auto-fill.mp4" type="video/mp4" />
-		</video>
+			<video width="100%" height="500px" controls>
+				<source src="https://ishadeed.com/assets/grid-minmax/auto-fill.mp4" type="video/mp4" />
+			</video>
 
-		<p>Check the demo:</p>
-		<iframe height="400px" src="https://codepen.io/filipjakov/embed/QWKQpQo" frameborder="0"></iframe>
+			<p>Check the demo:</p>
+			<iframe height="400px" src="https://codepen.io/filipjakov/embed/QWKQpQo" frameborder="0"></iframe>
+
+			<h2>A slight modification</h2>
+			<p>
+				The previous example ran into problems because we were setting a fixed value as the minimum track size. When the
+				container size shrunk, the items didn’t shrink with it, and thus: overflow. But what if we could set a minimum
+				size that would shrink based on the container size, ensuring that our tracks were never too big for their
+				container?
+			</p>
+
+			<p>Check the following modification:</p>
+			<pre><code>.grid {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(10rem, 100%), 1fr)
+  );
+}</code></pre>
+
+			<small>NOTE: show it in the previous pen</small>
+		</section>
+
+		<section>
+			<h2>Two-way layout</h2>
+			<p>
+				Actually, it's nothing we havent seen already: the same problem can be solved with
+				<a href="./un-holy-albatros.html">The (Un)Holy Albatross</a>, but the concepts come from the
+				<a href="./responsive-multi-column-grid-system-RAM.html">RAM</a> pattern (grid):
+			</p>
+
+			<pre><code>div {
+  display: grid;
+  /* Repeat, auto, minmax */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(35ch, 100%), 1fr)
+  );
+  /* Now this is new, but not necessary */
+  grid-template-rows: auto 1fr;
+  /* Easier gutters */
+  grid-gap: 2rem;
+}</code></pre>
+
+			<iframe height="400px" src="https://codepen.io/filipjakov/embed/ExgeOLN" frameborder="0"></iframe>
+
+			<p>The <code>auto</code> keyword:</p>
+			<blockquote>
+				Is a keyword that is identical to maximal content if it's a maximum. As a minimum it represents the largest
+				minimum size (as specified by min-width/min-height) of the grid items occupying the grid track.
+			</blockquote>
+
+			<p>
+				The <code>auto</code> value accommodates the vertical orientation with a changed ratio. This assumes that the
+				images have a landscape orientation. As there are only two child elements (the image and the content) CSS grids
+				handle the rest.
+			</p>
+
+			<p>
+				In CSS grids, row and column definitions are ignored when there are not enough elements. In the above example,
+				when there are only enough elements to fill the first row, the 1fr definition of the second row is ignored.
+			</p>
+
+			<p>
+				NOTE that this could've also been done with your basic <code>flex</code>. Just an extra of this similiar
+				principle (using <code>flex</code>):
+			</p>
+
+			<iframe height="400px" src="https://codepen.io/argyleink/embed/LYEegOO" frameborder="0"></iframe>
+		</section>
 	</body>
 </html>

@@ -69,8 +69,8 @@
 			<pre><code>30rem - 100%</code></pre>
 			<p>
 				Depending on the parsed value of <code>100%</code>, this will return either a positive or negative value:
-				positive if the container is narrower than 30rem, or negative if it is wider. This number is then multiplied by
-				999 to produce either a very large positive number or a very large negative number:
+				positive if the container is narrower than <code>30rem</code>, or negative if it is wider. This number is then
+				multiplied by <code>999</code> to produce either a very large positive number or a very large negative number:
 			</p>
 			<pre><code>(30rem - 100%) * 999</code></pre>
 			<p>Here is the code with the <code>flex-basis</code> declaration:</p>
@@ -155,14 +155,23 @@
 
 			<p>
 				So far, the switch happend according to the available space. But we can add as many elements as we like, and
-				they will lay out together horizontally above the breakpoint (or threshold). The more elements we add, the less
-				space each gets alloted, and things can easily start to get squashed up. Consider the following code:
+				they will lay out together horizontally above the breakpoint (or threshold).
+				<b>The more elements we add, the less space each gets alloted, and things can easily start to get squashed up</b
+				>. Consider the following code:
 			</p>
 
 			<pre><code>.container > *:nth-last-child(n+5),
 .container > *:nth-last-child(n+5) ~ * {
   flex-basis: 100%;
 }</code></pre>
+
+			<small
+				>Check explanation
+				<a
+					href="https://hugogiraudel.github.io/selectors-explained/?s=.container%2520%253E%2520%253Anth-last-child%28n%252B3%29%252C%2520.container%2520%253E%2520%253Anth-last-child%28n%252B3%29%2520%7E%2520*"
+					>here</a
+				>.</small
+			>
 
 			<p>
 				Here, we are applying a <code>flex-basis</code> of <code>100%</code> to each element, only where there are five
@@ -181,23 +190,21 @@
 			<h2>The UnHoly Albatros 🚫🙏</h2>
 
 			<p>
-				It is a very clever way to responsively stack 3+ columns into rows based on container size in a single step,
-				using the following property: <code>flex-basis:calc((breakpoint - 100%) * 999); flex-grow:1</code>
+				<b>The Holy Albatros</b> It is a very clever way to responsively stack 3+ columns into rows based on container
+				size in a single step, using the following property:
+				<code>flex-basis:calc((breakpoint - 100%) * 999); flex-grow:1</code>
 			</p>
 
 			<p>
-				This formula allows the column to switch between negative and positive <code>flex-basis</code> (at a minimum
-				<code>999px</code> wide due to <code>1px * 999</code>), which combined with default
-				<code>flex-shrink</code> value of <code>1</code> allows the column to expand to full width as soon as
-				<code>100%</code> container width falls below the breakpoint. However, because it takes over
+				However, because it takes over
 				<code>flex-basis</code> and <code>flex-grow</code>, this technique makes it hard to set the
-				<code>width</code> of columns.
+				<code>width</code> of columns. (NOTE: content —> width —> flex-basis (limted by max|min-width))
 			</p>
 
 			<h3>Harnessing the black magic of <code>clamp</code></h3>
 
 			<p>
-				To solve the previous problems, the formula UnHoly Albatross uses <code>min-width</code>, combined with
+				To solve the previous problems, the UnHoly Albatross uses <code>min-width</code>, combined with
 				<code>clamp</code>:
 			</p>
 
@@ -215,6 +222,9 @@
 				<code>flex-grow</code> so the width can be set freely.
 			</p>
 
+			<p>Check the demo:</p>
+			<iframe height="350px" src="https://codepen.io/Miragecraft/embed/VweEoOG" frameborder="0"></iframe>
+
 			<h3>Bonus: Reversing order of stacked columns</h3>
 
 			<p>
@@ -229,19 +239,16 @@
 			</p>
 
 			<p>
-				However, <code>flex-direction:row-reverse</code> has a curious property - the x direction is reversed, but the
-				row still wraps downwards, this means when columns are 100% wide it behaves like
-				<code>flex-direction:column</code>.
+				However, <code>flex-direction: row-reverse</code> has a curious property - the <code>x</code> direction is
+				reversed, but the row still wraps downwards, this means when columns are 100% wide it behaves like
+				<code>flex-direction: column</code>.
 			</p>
 
-			<pre><code>.v-reverse {flex-direction:row-reverse}
-.v-reverse > *:nth-child(1) {order:-1}
-.v-reverse > *:nth-child(2) {order:-2}
-.v-reverse > *:nth-child(3) {order:-3}
-.v-reverse > *:nth-child(4) {order:-4}</code></pre>
-
-			<p>Check the demo:</p>
-			<iframe height="350px" src="https://codepen.io/Miragecraft/embed/VweEoOG" frameborder="0"></iframe>
+			<pre><code>.v-reverse { flex-direction:row-reverse }
+.v-reverse > *:nth-child(1) { order:-1 }
+.v-reverse > *:nth-child(2) { order:-2 }
+.v-reverse > *:nth-child(3) { order:-3 }
+.v-reverse > *:nth-child(4) { order:-4 }</code></pre>
 		</section>
 
 		<section>
@@ -258,13 +265,17 @@
 					vertical line.
 				</li>
 				<li>
-					Big card layouts with an image and content next to each other, spanning a big horizontal space. Often they
+					*Big card layouts with an image and content next to each other, spanning a big horizontal space. Often they
 					have a fixed ratio between them (e.g. 50%-50%). When reducing the screen size, you don't want these two next,
 					but below each other.
 				</li>
-				<li>Sidebars? <img src="https://every-layout.dev/images/illustrations/sidebar_quantum.svg" alt="" /></li>
-				<li>...</li>
 			</ul>
+			<img src="https://every-layout.dev/images/illustrations/sidebar_quantum.svg" alt="" />
+
+			<p>
+				*<b>NOTE</b>: the Albatross is sutable for 2+ components (in a container). Otherwise, (if there were 2), using
+				your usual <code>flex</code> (<code>flex-basis</code> with <code>flex-wrap</code>) could suffice
+			</p>
 		</section>
 	</body>
 </html>
