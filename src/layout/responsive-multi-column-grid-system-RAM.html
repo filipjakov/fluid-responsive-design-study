@@ -18,8 +18,8 @@
 			</p>
 
 			<p>
-				With CSS grids we do not define the column span for each element. Instead, we let the browser determine the
-				number of columns on the screen. You can achieve the illustrated scalable layout with the code snippet below:
+				With CSS grids we let the browser determine the number of columns on the screen. We can achieve the illustrated
+				scalable layout with the code snippet below:
 			</p>
 
 			<pre><code>.grid {
@@ -103,34 +103,15 @@
   /* Now this is new, but not necessary */
   grid-template-rows: auto 1fr;
   /* Easier gutters */
-  grid-gap: 2rem;
+  gap: 5vmin;
 }</code></pre>
 
 			<iframe height="400px" src="https://codepen.io/filipjakov/embed/ExgeOLN" frameborder="0"></iframe>
 
-			<p>The <code>auto</code> keyword:</p>
-			<blockquote>
-				Is a keyword that is identical to maximal content if it's a maximum. As a minimum it represents the largest
-				minimum size (as specified by min-width/min-height) of the grid items occupying the grid track.
-			</blockquote>
-
 			<p>
-				The <code>auto</code> value accommodates the vertical orientation with a changed ratio. This assumes that the
-				images have a landscape orientation. As there are only two child elements (the image and the content) CSS grids
-				handle the rest.
+				<b>NOTE</b>: this could've also been done with your basic <code>flex</code> (2 elements), but the gutters
+				(<code>gap</code>) are easier.
 			</p>
-
-			<p>
-				In CSS grids, row and column definitions are ignored when there are not enough elements. In the above example,
-				when there are only enough elements to fill the first row, the 1fr definition of the second row is ignored.
-			</p>
-
-			<p>
-				NOTE that this could've also been done with your basic <code>flex</code>. Just an extra of this similiar
-				principle (using <code>flex</code>):
-			</p>
-
-			<iframe height="400px" src="https://codepen.io/argyleink/embed/LYEegOO" frameborder="0"></iframe>
 		</section>
 	</body>
 </html>

@@ -10,16 +10,15 @@
 		<h1>The (Un)Holy Albatross</h1>
 
 		<blockquote>
-			Holy Albatross is a technique to have a row of elements break into a column of elements at a specific width. A
-			specified parent width, not a screen width like a media query would have. So, like a container query.
+			The Holy Albatross is a technique which breaks a row of elements into a column of elements at a specific
+			<b>parent</b> width.
 		</blockquote>
 
 		<section>
 			<h2>The Problem</h2>
 			<p>
 				With Flexbox you can combine wrapping (<code>flex-wrap: wrap</code>) and growing (<code>flex-grow: 1</code>) to
-				ensure all flex items fall into their rightful place across different viewport widths. Flexbox can create an
-				effortlessly responsive layout with no collisions or unseemly gaps in sight.
+				ensure all flex items fall into their rightful place across different viewport widths.
 			</p>
 			<p>The trouble is, sometimes you want your items to wrap in a very particular way. For instance:</p>
 			<img src="https://every-layout.dev/images/illustrations/switcher_bypass.svg" alt="" />
@@ -85,18 +84,17 @@
 }</code></pre>
 
 			<p>
-				A negative <code>flex-basis</code> value is invalid, and dropped. Thanks to CSS's resilent error handling this
-				means just the <code>flex-basis</code> line is ignored, and the rest of the CSS is still applied. The erroneous
-				negative <code>flex-basis</code> value is corrected to <code>0</code> and, because <code>flex-grow</code> is
-				present, each element grows to take up an equal proportion of horizontal space.
+				A negative <code>flex-basis</code> value is invalid, and dropped; <code>flex-basis</code> line is ignored, and
+				the rest of the CSS is still applied. The erroneous negative <code>flex-basis</code> value is corrected to
+				<code>0</code> and, because <code>flex-grow</code> is present, each element grows to take up an equal proportion
+				of horizontal space.
 			</p>
 
 			<img src="https://every-layout.dev/images/illustrations/switcher_flex-basis_calc.svg" alt="" />
 
 			<p>
 				If, on the other hand, the calculated <code>flex-basis</code> value is a large positive number, each element
-				'maxes out' to take up a whole row. This results in the vertical configuration. Intermediary configurations are
-				successfully bypassed.
+				'maxes out' to take up a whole row. This results in the vertical configuration.
 			</p>
 
 			<h3>Gutters</h3>
@@ -126,7 +124,7 @@
 
 			<p>
 				(This will become redundant when the <code>gap</code> property is more widely supported. Think grid-gap but for
-				Grid, Flexbox, and other contexts.)
+				Grid AND Flexbox)
 			</p>
 
 			<h3>Managing proportions</h3>
@@ -173,6 +171,11 @@
 				>.</small
 			>
 
+			<blockquote>
+				Note: This pseudo-class is essentially the same as :nth-child, except it counts items backwards from the end,
+				not forwards from the beginning.
+			</blockquote>
+
 			<p>
 				Here, we are applying a <code>flex-basis</code> of <code>100%</code> to each element, only where there are five
 				or more elements in total. The <code>nth-last-child(n+5)</code> selector targets any elements that are more than
@@ -181,8 +184,8 @@
 				items, no <code>:nth-last-child(n+5)</code> elements and the style is not applied.
 			</p>
 
-			<img src="https://every-layout.dev/images/illustrations/switcher_quantities.svg" alt="" />
-			<p>Check the following example:</p>
+			<iframe height="350px" src="https://codepen.io/filipjakov/embed/YzXWxvB" frameborder="0"></iframe>
+			<p>Check the following examples:</p>
 			<iframe height="350px" src="https://codepen.io/heydon/embed/RvZQXR" frameborder="0"></iframe>
 		</section>
 
@@ -191,7 +194,7 @@
 
 			<p>
 				<b>The Holy Albatros</b> It is a very clever way to responsively stack 3+ columns into rows based on container
-				size in a single step, using the following property:
+				size in a single step, using
 				<code>flex-basis:calc((breakpoint - 100%) * 999); flex-grow:1</code>
 			</p>
 
@@ -264,14 +267,8 @@
 					A set of numbered steps is also easier on cognition if those steps are laid out along one horizontal or
 					vertical line.
 				</li>
-				<li>
-					*Big card layouts with an image and content next to each other, spanning a big horizontal space. Often they
-					have a fixed ratio between them (e.g. 50%-50%). When reducing the screen size, you don't want these two next,
-					but below each other.
-				</li>
+				<li>Header navigation component - horizontal on large screen/vertical (behing hamburger) on smaller screens</li>
 			</ul>
-			<img src="https://every-layout.dev/images/illustrations/sidebar_quantum.svg" alt="" />
-
 			<p>
 				*<b>NOTE</b>: the Albatross is sutable for 2+ components (in a container). Otherwise, (if there were 2), using
 				your usual <code>flex</code> (<code>flex-basis</code> with <code>flex-wrap</code>) could suffice

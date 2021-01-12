@@ -12,11 +12,9 @@
 		<section>
 			<h2>The problem</h2>
 
-			<p>How to create a single fixed-width column in the center of the page?</p>
-
 			<p>
-				There's a complicating factor (ofcourse): not all content should be constrained. We should allow images, videos,
-				and/or custom widgets to break free and fill the available width:
+				How to create a single fixed-width column in the center of the page? Buuut, not all content should be
+				constrained. We should allow images, videos, and/or custom widgets to break free and fill the available width:
 			</p>
 
 			<iframe height="350px" src="https://codepen.io/filipjakov/embed/abmqpYx" frameborder="0"></iframe>
@@ -78,14 +76,14 @@ main > img {
 			<pre><code>main {
   display: grid;
 
-  /* Padding the whole thing */
+  /* Approach 1 */
   grid-column-gap: 2rem;
   grid-template-columns:
     1fr
     minmax(calc(100% - 4rem), 65ch)
     1fr;
 
-  /* OR not padding bleed elements */
+  /* Approach 2 */
   grid-template-columns:
     minmax(2rem, 1fr)
     minmax(auto, 65ch)

@@ -6,5 +6,54 @@
 		<title>Fluid responsive design | Layout - The Raven Technique</title>
 		<link rel="stylesheet" type="text/css" href="../styles.css" />
 	</head>
-	<body></body>
+	<body>
+		<h1>The Raven Technique or Poor man's Container Queries</h1>
+
+		<section>
+			<h2>Intro</h2>
+
+			<p>
+				When building components for a website, you don’t always know how that component will be used. Maybe it will be
+				render as wide as the browser window is. Maybe two of them will sit side by side. Maybe it will be in some
+				narrow column. The width of it doesn’t always correlate with the width of the browser window.
+			</p>
+
+			<p>Not so long ago, container queries got announced in Chromium:</p>
+
+			<img src="https://www.bram.us/wordpress/wp-content/uploads/2020/11/container-queries.png" alt="" />
+
+			<blockquote>
+				This is not at all finalized, but the underlying problems we need to solve in Blink are (mostly) the same
+				regardless of how the feature is accessed, so we’ll for now use this proposal as the temporary syntax.
+			</blockquote>
+
+			<p>But we are far away from getting proper browser support.</p>
+
+			<p>
+				It’s common to reach a point where having container based queries for the CSS of the component would be super
+				handy. If you search around the web for solution to this, you’ll probably find several JavaScript-based
+				solutions. But those come at a price: extra dependencies, styling that requires JavaScript, and polluted
+				application logic and design logic.
+			</p>
+
+			<p>I am a strong believer in separation of concerns, and layout is a CSS concern.</p>
+
+			<p>
+				We already familiarized ourselves with <a href="./un-holy-albatros.html">The (Un)Holy Albatros</a>, but all that
+				is happening is a rows-to-columns switch. So, what does CSS have offer that we could tap into?
+			</p>
+		</section>
+
+		<section>
+			<h2>The Raven Technique</h2>
+
+			<p>
+				Better explained via this
+				<a
+					href="https://css-tricks.com/the-raven-technique-one-step-closer-to-container-queries/#step-1-create-configuration-variables"
+					>article</a
+				>.
+			</p>
+		</section>
+	</body>
 </html>
