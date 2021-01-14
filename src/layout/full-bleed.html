@@ -40,11 +40,13 @@
 			<pre><code>main > * {
   margin-left: auto;
   margin-right: auto;
+  padding: 0 2vmin;
   max-width: 65ch;
 }
 
 main > img {
   max-width: 100ch;
+  padding: 0;
 }</code></pre>
 
 			Pros
@@ -54,9 +56,9 @@ main > img {
 				<li>Good browser support</li>
 			</ul>
 
-			Cons
+			(Potentialy) Cons
 			<ul>
-				<li>Content padding on small screen sizes (solvable with <code>@media</code>)</li>
+				<li>Paddings and margins set directly on the descendants</li>
 			</ul>
 		</section>
 
@@ -118,7 +120,7 @@ main > img {
   ...
 }</code></pre>
 
-			<p>Now we have a dynamic and maintainable layout!</p>
+			<p>Check the demo:</p>
 
 			<iframe height="350px" src="https://codepen.io/filipjakov/embed/mdrGQmX" frameborder="0"></iframe>
 		</section>
